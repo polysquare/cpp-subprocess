@@ -1,0 +1,27 @@
+/*
+ * acceptance_tests_config.h
+ *
+ * Simple configuration for the acceptance tests.
+ *
+ * See LICENCE.md for Copyright information.
+ */
+
+#ifndef CPP_SUBPROCESS_ACCEPTANCE_TESTS_CONFIG_H
+#define CPP_SUBPROCESS_ACCEPTANCE_TESTS_CONFIG_H
+
+namespace polysquare
+{
+    namespace subprocess
+    {
+        namespace test
+        {
+            std::string const SimpleExecutable = "@SIMPLE_EXECUTABLE_BINARY@";
+            std::string const SimpleExecutableDirectory =
+                "@SIMPLE_EXECUTABLE_BINARY_DIRECTORY@";
+	        std::string const SimpleExecutablePath =
+                "@SIMPLE_EXECUTABLE_BINARY_DIRECTORY@/@SIMPLE_EXECUTABLE_BINARY@";
+        }
+    }
+}
+
+#endif

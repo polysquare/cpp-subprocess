@@ -1,0 +1,26 @@
+language: cpp
+env:
+ # GNU C/C++ Build
+ - CC_OVERLOAD=gcc
+   CXX_OVERLOAD=g++
+ # Clang Build+
+ - CC_OVERLOAD=clang
+   CXX_OVERLOAD=clang++
+ # Clang Static Analysis
+ - CC_OVERLOAD=${CC}
+   CXX_OVERLOAD=${CXX}
+   WRAPPER=scan-build
+before_install:
+  - git submodule update --init --recursive
+  - sudo apt-add-repository -y ppa:smspillaz/verapp-latest
+  - sudo apt-get update -qq
+  - sudo apt-get install -qq `cat DEPENDENCIES`
+script:
+  - mkdir build
+  - cd build
+  - CC=${CC_OVERLOAD} CXX=${CXX_OVERLOAD} ${WRAPPER} cmake .. ${CMAKE_OPTIONS}
+  - ${WRAPPER} make
+  - cd tests  
+  - ./integration/cpp_subprocess_integration_tests
+  - ./acceptance/cpp_subprocess_acceptance_tests
+  - cd ../../
