@@ -38,24 +38,21 @@ include_directories (${CPP_SUBPROCESS_INTERNAL_SOURCE_DIRECTORY}
 
 set (CPP_SUBPROCESS_ACCEPTANCE_TESTS
      cpp_subprocess_acceptance_tests)
+set (CPP_SUBPROCESS_ACCEPTANCE_TESTS_LAUNCH_SRC
+     ${CMAKE_CURRENT_SOURCE_DIR}/launch.cpp)
 set (CPP_SUBPROCESS_ACCEPTANCE_TESTS_SRCS
      ${CMAKE_CURRENT_SOURCE_DIR}/launch.cpp
      ${CMAKE_CURRENT_SOURCE_DIR}/locatebinary.cpp)
 
-add_executable (${CPP_SUBPROCESS_ACCEPTANCE_TESTS}
-                ${CPP_SUBPROCESS_ACCEPTANCE_TESTS_SRCS})
-
 # Workaround to remove the generated file form the list of sources
 # to perform style checks on as there may be lines longer than
 # 100 chars.
-set (ACCEPTANCE_TESTS_CONFIG_BRIDGE ${CPP_SUBPROCESS_ACCEPTANCE_TESTS}_config)
-add_custom_target (${ACCEPTANCE_TESTS_CONFIG_BRIDGE}
-                   DEPENDS
-                   ${ACCEPTANCE_TESTS_CONFIG_H}
-                   COMMENT "Acceptance tests configuration bridge")
+set_property (SOURCE ${CPP_SUBPROCESS_ACCEPTANCE_TESTS_LAUNCH_SRC}
+              PROPERTY OBJECT_DEPENDS
+              ${ACCEPTANCE_TESTS_CONFIG_H})
 
-add_dependencies (${CPP_SUBPROCESS_ACCEPTANCE_TESTS}
-                  ${ACCEPTANCE_TESTS_CONFIG_BRIDGE})
+add_executable (${CPP_SUBPROCESS_ACCEPTANCE_TESTS}
+                ${CPP_SUBPROCESS_ACCEPTANCE_TESTS_SRCS})
 
 target_link_libraries (${CPP_SUBPROCESS_ACCEPTANCE_TESTS}
                        ${CPP_SUBPROCESS_EXTERNAL_LIBRARIES}
