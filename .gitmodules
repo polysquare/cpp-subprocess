@@ -7,3 +7,6 @@
 [submodule "cmake/CMakeCPPCheck"]
 	path = cmake/CMakeCPPCheck
 	url = git://github.com/polysquare/cppcheck-target-cmake
+[submodule "cmake/GCov"]
+	path = cmake/GCov
+	url = git://github.com/polysquare/gcov-cmake
