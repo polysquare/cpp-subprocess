@@ -18,7 +18,9 @@ polysquare_add_test (${CPP_SUBPROCESS_INTEGRATION_TESTS}
                      INTERNAL_INCLUDE_DIRS
                      ${CPP_SUBPROCESS_INTERNAL_SOURCE_DIRECTORY}
                      ${CPP_SUBPROCESS_INTERNAL_INCLUDE_DIRECTORY}
+                     ${CPP_SUBPROCESS_MOCKS_DIRECTORY}
                      ${CMAKE_CURRENT_SOURCE_DIR}
                      LIBRARIES
                      ${CPP_SUBPROCESS_EXTERNAL_LIBRARIES}
-                     ${CPP_SUBPROCESS_LIBRARY})
+                     ${CPP_SUBPROCESS_LIBRARY}
+                     MOCKS ${CPP_SUBPROCESS_MOCKS})

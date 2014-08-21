@@ -88,12 +88,11 @@ ps::ReadFDToLines (int                           fd,
 {
     std::vector <std::string> lines;
 
-    auto vectorInserter =
-        [&lines](std::string const &line, bool n) -> void {
-            lines.push_back (line);
-        };
-
-    ReadFD (fd, vectorInserter, os);
+    ReadFD (fd,
+            [&lines](std::string const &line, bool n) -> void {
+                lines.push_back (line);
+            },
+            os);
 
     return lines;
 }

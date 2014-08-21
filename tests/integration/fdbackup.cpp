@@ -18,8 +18,18 @@
 
 #include <cpp-subprocess/operating_system.h>
 #include <cpp-subprocess/fdbackup.h>
+#include <cpp-subprocess/pipe.h>
+#include <cpp-subprocess/readfd.h>
+#include <cpp-subprocess/redirectedfd.h>
+
+#include <mock_operating_system.h>
 
 namespace ps = polysquare::subprocess;
+namespace psm = polysquare::subprocess::mocks;
+
+using ::testing::_;
+using ::testing::HasSubstr;
+using ::testing::Return;
 
 class FDBackup :
     public ::testing::Test
@@ -38,8 +48,9 @@ class FDBackup :
 FDBackup::FDBackup () :
     os (ps::MakeOperatingSystem ())
 {
-    if (os->pipe (pipe) == -1)
-        throw std::runtime_error (strerror (errno));
+    int result = os->pipe (pipe);
+
+    assert (result != -1);
 
     backup.reset (new ps::FDBackup (pipe[0], *os));
 
@@ -54,8 +65,7 @@ TEST_F (FDBackup, Restore)
                                        static_cast <void *> (msg),
                                        1);
 
-    if (amountWritten == -1)
-        throw std::runtime_error (strerror (errno));
+    assert (amountWritten != -1);
 
     backup.reset ();
 
@@ -66,9 +76,55 @@ TEST_F (FDBackup, Restore)
 
     int ready = os->poll (&pfd, 1, 0);
 
-    if (ready == -1)
-        throw std::runtime_error (strerror (errno));
+    assert (ready != -1);
 
-    EXPECT_EQ (1, ready) << "Expected data available to be read on "
-                            "restored fd";
+    EXPECT_EQ (1, ready) << "Expected data available to be read on restored fd";
+}
+
+class MockedOSFDBackup :
+    public ::testing::Test
+{
+    public:
+
+        MockedOSFDBackup ();
+
+    protected:
+
+        psm::OperatingSystem os;
+};
+
+MockedOSFDBackup::MockedOSFDBackup ()
+{
+    os.IgnoreAllCalls ();
+}
+
+TEST_F (MockedOSFDBackup, ThrowRuntimeErrorOnDupFailure)
+{
+    int originalFd = 1;
+    ON_CALL (os, dup (originalFd)).WillByDefault (Return (-1));
+
+    EXPECT_THROW ({
+        ps::FDBackup backup (originalFd, os);
+    }, std::runtime_error);
+}
+
+TEST_F (MockedOSFDBackup, ComplainsToStandardErrorWhenDup2Fails)
+{
+    /* Redirect stderr so that we can capture it */
+    ps::OperatingSystem::Unique realOS (ps::MakeOperatingSystem ());
+    ps::Pipe                    stderrPipe (*realOS);
+    ps::RedirectedFD            redirectedErrorsHandle (STDERR_FILENO,
+                                                        stderrPipe.WriteEnd (),
+                                                        *realOS);
+
+    ON_CALL (os, dup (_)).WillByDefault (Return (1));
+    ON_CALL (os, dup2 (_, _)).WillByDefault (Return (-1));
+
+    {
+        ps::FDBackup backup (1, os);
+    }
+
+    auto errors = ps::ReadFDToString (stderrPipe.ReadEnd (), realOS);
+
+    EXPECT_THAT (errors, HasSubstr ("Failed to restore file descriptor"));
 }

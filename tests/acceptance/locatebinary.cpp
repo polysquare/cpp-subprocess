@@ -17,12 +17,17 @@
 #include "acceptance_tests_config.h"
 
 #include <cpp-subprocess/locatebinary.h>
+#include <cpp-subprocess/pipe.h>
 #include <cpp-subprocess/operating_system.h>
+#include <cpp-subprocess/redirectedfd.h>
+#include <cpp-subprocess/readfd.h>
 
 #include <mock_operating_system.h>
 
 using ::testing::_;
 using ::testing::DoAll;
+using ::testing::HasSubstr;
+using ::testing::Matcher;
 using ::testing::Return;
 using ::testing::StrEq;
 
@@ -151,6 +156,56 @@ TEST_F (LocateBinary, ThrowRuntimeErrorOnNotFoundInOnePath)
                           SingleArray (MockExecutablePaths[0]),
                           os);
     }, std::runtime_error);
+}
+
+TEST_F (LocateBinary, ThrownErrorSpecifiesFileInWhatString)
+{
+    std::string const FullPath (MockExecutablePaths[0] + "/" + MockExecutable);
+    ON_CALL (os, access (StrEq (FullPath), _))
+        .WillByDefault (SimulateError (ENOENT));
+
+    try
+    {
+        ps::locateBinary (MockExecutable,
+                          SingleArray (MockExecutablePaths[0]),
+                          os);
+    }
+    catch (std::runtime_error &err)
+    {
+        EXPECT_THAT (err.what (), HasSubstr (MockExecutablePaths[0]));
+    }
+}
+
+TEST_F (LocateBinary, ComplainToStderrOnOtherError)
+{
+    /* Redirect stderr so that we can capture it */
+    ps::OperatingSystem::Unique realOS (ps::MakeOperatingSystem ());
+    ps::Pipe                    stderrPipe (*realOS);
+    ps::RedirectedFD            redirectedErrorsHandle (STDERR_FILENO,
+                                                        stderrPipe.WriteEnd (),
+                                                        *realOS);
+
+    ON_CALL (os, access (_, _))
+        .WillByDefault (SimulateError (EAGAIN));
+
+    try
+    {
+        ps::locateBinary (MockExecutable,
+                          SingleArray (MockExecutablePaths[0]),
+                          os);
+    }
+    catch (std::runtime_error &)
+    {
+    }
+
+    auto lines = ps::ReadFDToLines (stderrPipe.ReadEnd (), realOS);
+
+    Matcher <std::string> const closeErrors[] =
+    {
+        HasSubstr ("Failed to locate file: ")
+    };
+
+    EXPECT_THAT (lines, ElementsAreArray (closeErrors));
 }
 
 TEST_F (LocateBinary, ThrowRuntimeErrorOnNotFoundInMultiplePaths)

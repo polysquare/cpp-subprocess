@@ -36,15 +36,6 @@ namespace polysquare
         class FileNotFoundError :
             public std::exception
         {
-            public:
-
-                FileNotFoundError (std::string const &file);
-                ~FileNotFoundError () noexcept (true);
-                char const * what () const noexcept (true);
-
-            private:
-
-                std::string mFile;
         };
 
         template <typename Container>

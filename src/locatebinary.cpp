@@ -22,21 +22,6 @@
 namespace ps = polysquare::subprocess;
 namespace psi = polysquare::subprocess::impl;
 
-ps::FileNotFoundError::FileNotFoundError (std::string const &file) :
-    mFile (file)
-{
-}
-
-ps::FileNotFoundError::~FileNotFoundError () noexcept (true)
-{
-}
-
-char const *
-ps::FileNotFoundError::what () const noexcept (true)
-{
-    return "A file was not found";
-}
-
 std::string
 psi::locationError (std::string   const &binaryName,
                     PathReporter  const &reporter)
@@ -55,7 +40,7 @@ psi::locationError (std::string   const &binaryName,
 void
 psi::reportRuntimeError (std::runtime_error const &e)
 {
-    std::cout << e.what () << std::endl;
+    std::cerr << "Failed to locate file: " << e.what () << std::endl;
 }
 
 std::string
@@ -72,7 +57,7 @@ psi::locateBinary (std::string         const &binaryName,
         {
             case EACCES:
             case ENOENT:
-                throw ps::FileNotFoundError (binaryName);
+                throw ps::FileNotFoundError ();
             default:
                 throw std::runtime_error (strerror (errno));
         }
