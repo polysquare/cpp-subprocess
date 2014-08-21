@@ -36,7 +36,7 @@ ps::FDBackup::~FDBackup ()
 {
     /* Redirect backed up fd to old fd location */
     if (mBackupFd &&
-        dup2 (mBackupFd, mOriginalFd) == -1)
+        mOS.dup2 (mBackupFd, mOriginalFd) == -1)
         std::cerr << "Failed to restore file descriptor "
                   << strerror (errno) << std::endl;
 }

@@ -16,8 +16,21 @@
 
 #include <cpp-subprocess/operating_system.h>
 #include <cpp-subprocess/pipe.h>
+#include <cpp-subprocess/readfd.h>
+#include <cpp-subprocess/redirectedfd.h>
+
+#include <mock_operating_system.h>
 
 namespace ps = polysquare::subprocess;
+namespace psm = polysquare::subprocess::mocks;
+
+using ::testing::_;
+using ::testing::DoAll;
+using ::testing::ElementsAreArray;
+using ::testing::HasSubstr;
+using ::testing::Matcher;
+using ::testing::Return;
+using ::testing::SetArrayArgument;
 
 class Pipe :
     public ::testing::Test
@@ -46,8 +59,7 @@ TEST_F (Pipe, WriteAndRead)
                                        static_cast <void *> (msg),
                                        1);
 
-    if (amountWritten == -1)
-        throw std::runtime_error (strerror (errno));
+    assert (amountWritten != -1);
 
     char buf[2];
 
@@ -58,17 +70,74 @@ TEST_F (Pipe, WriteAndRead)
 
     int ready = os->poll (&pfd, 1, 0);
 
-    if (ready == -1)
-        throw std::runtime_error (strerror (errno));
+    assert (ready != -1);
 
-    ASSERT_EQ (1, ready);
+    ASSERT_EQ (1, ready) << "Expected read end to be ready";
 
     ssize_t amountRead = os->read (pipe.ReadEnd (),
                                    static_cast <void *> (buf),
                                    1);
 
-    if (amountRead == -1)
-        throw std::runtime_error (strerror (errno));
+    assert (amountRead != -1);
 
-    EXPECT_EQ (msg[0], buf[0]);
+    EXPECT_EQ (msg[0], buf[0]) << "Expected data on read end";
+}
+
+class PipeWithMockedBackend :
+    public ::testing::Test
+{
+    public:
+
+        PipeWithMockedBackend ();
+
+    protected:
+
+        psm::OperatingSystem os;
+};
+
+PipeWithMockedBackend::PipeWithMockedBackend ()
+{
+    os.IgnoreAllCalls ();
+}
+
+TEST_F (PipeWithMockedBackend, ThrowsOnPipeFailure)
+{
+    ON_CALL (os, pipe (_)).WillByDefault (Return (-1));
+
+    EXPECT_THROW ({
+        ps::Pipe pipe (os);
+    }, std::runtime_error);
+}
+
+TEST_F (PipeWithMockedBackend, ComplainsOnPipeFailureToClose)
+{
+    /* Redirect stderr so that we can capture it */
+    ps::OperatingSystem::Unique realOS (ps::MakeOperatingSystem ());
+    ps::Pipe                    stderrPipe (*realOS);
+    ps::RedirectedFD            redirectedErrorsHandle (STDERR_FILENO,
+                                                        stderrPipe.WriteEnd (),
+                                                        *realOS);
+
+    int returnedFDs[2] = { 10, 11 };
+
+    ON_CALL (os, pipe (_)).
+        WillByDefault (DoAll (SetArrayArgument <0> (returnedFDs,
+                                                    returnedFDs + 2),
+                       Return (0)));
+    ON_CALL (os, close (returnedFDs[0])).WillByDefault (Return (-1));
+    ON_CALL (os, close (returnedFDs[1])).WillByDefault (Return (-1));
+
+    {
+        ps::Pipe pipe (os);
+    }
+
+    auto lines = ps::ReadFDToLines (stderrPipe.ReadEnd (), realOS);
+
+    Matcher <std::string> const closeErrors[] =
+    {
+        HasSubstr ("mPipe[0] close:"),
+        HasSubstr ("mPipe[1] close:")
+    };
+
+    EXPECT_THAT (lines, ElementsAreArray (closeErrors));
 }

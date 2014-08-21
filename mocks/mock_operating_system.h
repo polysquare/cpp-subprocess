@@ -52,7 +52,7 @@ namespace polysquare
                     MOCK_CONST_METHOD2 (fcntl_setfl, int (int fd, int flags));
                     MOCK_CONST_METHOD1 (fcntl_getfl, int (int fd));
 
-                void IgnoreAllCalls ();
+                    void IgnoreAllCalls ();
             };
         }
     }

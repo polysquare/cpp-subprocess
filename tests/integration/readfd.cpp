@@ -8,8 +8,9 @@
 
 #include <stdexcept>
 
-#include <gtest/gtest.h>
+#include <gmock/gmock.h>
 
+#include <assert.h>
 #include <unistd.h>
 #include <errno.h>
 
@@ -18,6 +19,9 @@
 #include <cpp-subprocess/readfd.h>
 
 namespace ps = polysquare::subprocess;
+
+using ::testing::ElementsAre;
+using ::testing::StrEq;
 
 class ReadFD :
     public ::testing::Test
@@ -51,8 +55,7 @@ ReadFD::WriteMessage (std::string const &msg)
                                        data,
                                        msg.size ());
 
-    if (amountWritten == -1)
-        throw std::runtime_error (strerror (errno));
+    assert (amountWritten != -1);
 }
 
 TEST_F (ReadFD, ReadFromPipe)
@@ -83,6 +86,30 @@ TEST_F (ReadFD, ReadMultilineMessageFromPipeNoTrailingReturn)
     std::string msgReceived = ps::ReadFDToString (pipe.ReadEnd (), os);
 
     EXPECT_EQ (msg, msgReceived);
+}
+
+TEST_F (ReadFD, ReadMultilineMessageFromPipeAsVectorWithTrailingReturn)
+{
+    std::string const mockData ("mock_data");
+    std::string const msg (mockData + "\n" + mockData + "\n");
+    WriteMessage (msg);
+
+    auto linesReceived = ps::ReadFDToLines (pipe.ReadEnd (), os);
+
+    EXPECT_THAT (linesReceived,
+                 ElementsAre (StrEq (mockData), StrEq (mockData)));
+}
+
+TEST_F (ReadFD, ReadMultilineMessageFromPipeAsVectorWithoutTrailingReturn)
+{
+    std::string const mockData ("mock_data");
+    std::string const msg (mockData + "\n" + mockData);
+    WriteMessage (msg);
+
+    auto linesReceived = ps::ReadFDToLines (pipe.ReadEnd (), os);
+
+    EXPECT_THAT (linesReceived,
+                 ElementsAre (StrEq (mockData), StrEq (mockData)));
 }
 
 TEST_F (ReadFD, ReadNone)

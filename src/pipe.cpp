@@ -28,11 +28,11 @@ ps::Pipe::~Pipe ()
 {
     if (mPipe[0] &&
         mOS.close (mPipe[0]) == -1)
-        std::cerr << "mPipe[0] " << strerror (errno) << std::endl;
+        std::cerr << "mPipe[0] close: " << strerror (errno) << std::endl;
 
     if (mPipe[1] &&
         mOS.close (mPipe[1]) == -1)
-        std::cerr << "mPipe[0] " << strerror (errno) << std::endl;
+        std::cerr << "mPipe[1] close: " << strerror (errno) << std::endl;
 }
 
 int
