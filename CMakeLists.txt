@@ -7,78 +7,73 @@ project (CPPSubprocess)
 
 cmake_minimum_required (VERSION 2.8 FATAL_ERROR)
 
-set (Boost_USE_STATIC_LIBS ON)
+option (CPP_SUBPROCESS_BOOST_USE_STATIC_LIBS ON
+        "Link static libraries for boost. OFF if not using system compiler")
+set (Boost_USE_STATIC_LIBS ${CPP_SUBPROCESS_BOOST_USE_STATIC_LIBS})
 
 set (CPP_SUBPROCESS_CMAKE_MODULE_DIRECTORY
      ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
-set (CPP_SUBPROCESS_CMAKE_GMOCK_CMAKE_MODULE_DIRECTORY
-     ${CPP_SUBPROCESS_CMAKE_MODULE_DIRECTORY}/CMakeGoogleMock)
-set (CPP_SUBPROCESS_VERAPP_CMAKE_MODULE_DIRECTORY
-     ${CPP_SUBPROCESS_CMAKE_MODULE_DIRECTORY}/Vera++)
-set (CPP_SUBPROCESS_CMAKE_CPPCHECK_MODULE_DIRECTORY
-     ${CPP_SUBPROCESS_CMAKE_MODULE_DIRECTORY}/CMakeCPPCheck)
-set (CPP_SUBPROCESS_GCOV_CMAKE_DIRECTORY
-     ${CPP_SUBPROCESS_CMAKE_MODULE_DIRECTORY}/GCov)
+set (CPP_SUBPROCESS_CMAKE_COMMON_MODULE_DIRECTORY
+     ${CPP_SUBPROCESS_CMAKE_MODULE_DIRECTORY}/common)
 set (CMAKE_MODULE_PATH
-     ${CPP_SUBPROCESS_CMAKE_GMOCK_CMAKE_MODULE_DIRECTORY}
-     ${CPP_SUBPROCESS_VERAPP_CMAKE_MODULE_DIRECTORY}
-     ${CPP_SUBPROCESS_CMAKE_CPPCHECK_MODULE_DIRECTORY}
-     ${CPP_SUBPROCESS_GCOV_CMAKE_DIRECTORY}
+     ${CPP_SUBPROCESS_CMAKE_COMMON_MODULE_DIRECTORY}
      ${CMAKE_MODULE_PATH})
 
-find_package (Boost 1.46 REQUIRED COMPONENTS iostreams program_options)
-find_package (GoogleMock REQUIRED)
-find_package (VeraPP 1.2 REQUIRED)
+include (PolysquareCommon)
 
-find_program (CPPCHECK_EXECUTABLE cppcheck)
+polysquare_compiler_bootstrap ()
+polysquare_rules_bootstrap (${CPP_SUBPROCESS_CMAKE_COMMON_MODULE_DIRECTORY}
+                            ${CMAKE_BINARY_DIR})
+polysquare_gmock_bootstrap (${CPP_SUBPROCESS_CMAKE_COMMON_MODULE_DIRECTORY})
+polysquare_coverage_bootstrap (${CPP_SUBPROCESS_CMAKE_COMMON_MODULE_DIRECTORY})
+polysquare_cotire_bootstrap (${CPP_SUBPROCESS_CMAKE_COMMON_MODULE_DIRECTORY})
 
-if (NOT CPPCHECK_EXECUTABLE)
+function (cpp_subprocess_import_external_libraries_from_boost RETURN_VALUE
+                                                              VERSION)
 
-    message (SEND_ERROR "cppcheck was not found")
+    cmake_parse_arguments (EXTERNAL
+                           ""
+                           ""
+                           "COMPONENTS"
+                           ${ARGN})
 
-endif (NOT CPPCHECK_EXECUTABLE)
+    find_package (Boost ${VERSION} COMPONENTS ${EXTERNAL_COMPONENTS})
 
-mark_as_advanced (CPPCHECK_EXECUTABLE)
+    set (RETURN_LIST)
 
-set (COMPILER_FLAGS "-fPIC -Wall -Werror")
-set (CXX_CXX11_FLAGS "-std=c++0x")
-set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${COMPILER_FLAGS} ${CXX_CXX11_FLAGS}")
-set (CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${COMPILER_FLAGS}")
+    foreach (LIBRARY ${Boost_LIBRARIES})
 
-# Set up coverage reporting tools
-include (GCovUtilities)
+        list (FIND Boost_LIBRARIES ${LIBRARY} INDEX)
+        list (GET EXTERNAL_COMPONENTS ${INDEX} EXT_COMPONENT_NAME)
+        set (IMPORTED_LIBRARY_NAME imported_boost_${EXT_COMPONENT_NAME})
 
-# Set up Vera++
-set (CPP_SUBPROCESS_VERAPP_OUTPUT_DIRECTORY
-     ${CMAKE_CURRENT_BINARY_DIR}/vera++)
-set (CPP_SUBPROCESS_VERAPP_SCRIPTS_OUTPUT_DIRECTORY
-     ${CPP_SUBPROCESS_VERAPP_OUTPUT_DIRECTORY}/scripts)
-set (CPP_SUBPROCESS_VERAPP_RULES_OUTPUT_DIRECTORY
-     ${CPP_SUBPROCESS_VERAPP_SCRIPTS_OUTPUT_DIRECTORY}/rules)
-set (CPP_SUBPROCESS_VERAPP_PROFILES_OUTPUT_DIRECTORY
-     ${CPP_SUBPROCESS_VERAPP_OUTPUT_DIRECTORY}/profiles)
-set (CPP_SUBPROCESS_VERAPP_SOURCE_DIRECTORY
-     ${CMAKE_CURRENT_SOURCE_DIR}/tools/vera++)
-set (CPP_SUBPROCESS_VERAPP_SCRIPTS_SOURCE_DIRECTORY
-    ${CPP_SUBPROCESS_VERAPP_SOURCE_DIRECTORY}/scripts)
-set (CPP_SUBPROCESS_VERAPP_RULES_SOURCE_DIRECTORY
-    ${CPP_SUBPROCESS_VERAPP_SCRIPTS_SOURCE_DIRECTORY}/rules/)
-set (CPP_SUBPROCESS_VERAPP_PROFILES_SOURCE_DIRECTORY
-    ${CPP_SUBPROCESS_VERAPP_SOURCE_DIRECTORY}/profiles/)
+        add_library (${IMPORTED_LIBRARY_NAME} STATIC IMPORTED GLOBAL)
+        set_target_properties (${IMPORTED_LIBRARY_NAME}
+                               PROPERTIES
+                               IMPORTED_LOCATION
+                               ${LIBRARY})
+        list (APPEND RETURN_LIST ${IMPORTED_LIBRARY_NAME})
 
-set (CPP_SUBPROCESS_VERAPP_PROFILE cpp-subprocess)
+    endforeach ()
 
-set (CPP_SUBPROCESS_VERAPP_IMPORT_RULES cpp_subprocess_verapp_import_rules)
+    set (${RETURN_VALUE} ${RETURN_LIST} PARENT_SCOPE)
 
-include (${CPP_SUBPROCESS_CMAKE_MODULE_DIRECTORY}/VeraPPTargets.cmake)
+endfunction ()
 
-# Set up cppcheck
-include (CPPCheck)
+cpp_subprocess_import_external_libraries_from_boost (BOOST_LIBRARIES
+                                                     1.46
+                                                     COMPONENTS
+                                                     program_options
+                                                     iostreams)
 
-set (CPP_SUBPROCESS_EXTERNAL_INCLUDE_DIRS ${Boost_INCLUDE_DIRS})
-set (CPP_SUBPROCESS_TEST_INCLUDE_DIRS
-     ${GTEST_INCLUDE_DIR}
-     ${GMOCK_INCLUDE_DIR})
+set (CPP_SUBPROCESS_LIBRARY polysquare_cpp_subprocess)
+set (CPP_SUBPROCESS_MOCKS polysquare_cpp_subprocess_mocks)
+set (CPP_SUBPROCESS_STRING_REPLACEMENT_GENERATOR
+     cpp_subprocess_string_replacement_generator)
+
+set (CPP_SUBPROCESS_EXTERNAL_LIBRARIES
+     ${BOOST_LIBRARIES})
+
 set (CPP_SUBPROCESS_INTERNAL_INCLUDE_DIRECTORY
      ${CMAKE_CURRENT_SOURCE_DIR}/include)
 set (CPP_SUBPROCESS_INTERNAL_SOURCE_DIRECTORY
@@ -89,32 +84,9 @@ set (CPP_SUBPROCESS_GENERATORS_DIRECTORY
      ${CMAKE_CURRENT_SOURCE_DIR}/generators)
 set (CPP_SUBPROCESS_TESTS_DIRECTORY
      ${CMAKE_CURRENT_SOURCE_DIR}/tests)
-set (CPP_SUBPROCESS_EXTERNAL_LIBRARIES
-     ${Boost_LIBRARIES})
-set (CPP_SUBPROCESS_TEST_LIBRARIES
-     ${GTEST_BOTH_LIBRARIES}
-     ${GMOCK_LIBRARY})
-
-set (CPP_SUBPROCESS_LIBRARY polysquare_cpp_subprocess)
-set (CPP_SUBPROCESS_MOCKS polysquare_cpp_subprocess_mocks)
-set (CPP_SUBPROCESS_STRING_REPLACEMENT_GENERATOR
-     cpp_subprocess_string_replacement_generator)
 
 add_subdirectory (${CPP_SUBPROCESS_INTERNAL_INCLUDE_DIRECTORY})
 add_subdirectory (${CPP_SUBPROCESS_INTERNAL_SOURCE_DIRECTORY})
 add_subdirectory (${CPP_SUBPROCESS_GENERATORS_DIRECTORY})
 add_subdirectory (${CPP_SUBPROCESS_MOCKS_DIRECTORY})
 add_subdirectory (${CPP_SUBPROCESS_TESTS_DIRECTORY})
-
-# Append all sources to unused function check
-add_custom_target (cpp_subprocess_check_unused ALL
-                   COMMENT "Checking for unused functions")
-
-# The boost and gtest libraries are quite complicated 
-set (CPP_SUBPROCESS_UNUSED_INCLUDES
-     ${CPP_SUBPROCESS_INTERNAL_INCLUDE_DIRECTORY}
-     ${CPP_SUBPROCESS_INTERNAL_SOURCE_DIRECTORY}
-     ${CPP_SUBPROCESS_INTERNAL_SOURCE_BINARY_DIRECTORY})
-cppcheck_add_global_unused_function_check_to_target (cpp_subprocess_check_unused
-                                                     INCLUDES
-                                                     ${CPP_SUBPROCESS_UNUSED_INCLUDES})

@@ -21,9 +21,9 @@ namespace polysquare
         {
             public:
 
-                typedef std::unique_ptr<OperatingSystem> Unique;
+                typedef std::unique_ptr <OperatingSystem> Unique;
 
-                virtual ~OperatingSystem() {};
+                virtual ~OperatingSystem () {};
 
                 virtual int pipe (int pipe[2]) const = 0;
                 virtual int execve (char const *path,
@@ -51,7 +51,7 @@ namespace polysquare
          * implementation of OperatingSystem, used to construct
          * an OperatingSystem that is compatible with the system
          * cpp-subprocess was compiled for */
-        OperatingSystem::Unique MakeOperatingSystem();
+        OperatingSystem::Unique MakeOperatingSystem ();
     }
 }
 

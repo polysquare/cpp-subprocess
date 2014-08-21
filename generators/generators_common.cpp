@@ -38,10 +38,10 @@ psg::GetOptions (int                       argc,
 
     description.add_options ()
         ("input,i",
-         po::value<std::string> (&input)->required (),
+         po::value <std::string> (&input)->required (),
          "File to read template from")
         ("output,o",
-         po::value<std::string> (&output)->required (),
+         po::value <std::string> (&output)->required (),
          "File to write result to");
 
     po::variables_map vm;

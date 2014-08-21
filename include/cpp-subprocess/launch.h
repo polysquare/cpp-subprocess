@@ -26,9 +26,9 @@ namespace polysquare
                             OperatingSystem const &os);
         int waitForProcessEnd (pid_t                 process,
                                OperatingSystem const &os);
-        int launchBinaryAndWaitForReturn (const std::string     &executable,
-                                          const char            **argv,
-                                          const char            **environment,
+        int launchBinaryAndWaitForReturn (std::string     const &executable,
+                                          char            const **argv,
+                                          char            const **environment,
                                           int                   &stderrWriteEnd,
                                           int                   &stdoutWriteEnd,
                                           OperatingSystem const &os);
