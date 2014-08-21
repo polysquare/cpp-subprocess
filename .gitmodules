@@ -1,12 +1,3 @@
-[submodule "cmake/CMakeGoogleMock"]
-	path = cmake/CMakeGoogleMock
-	url = git://github.com/polysquare/gmock-cmake
-[submodule "cmake/Vera++"]
-	path = cmake/Vera++
-	url = git://github.com/polysquare/veracpp-cmake
-[submodule "cmake/CMakeCPPCheck"]
-	path = cmake/CMakeCPPCheck
-	url = git://github.com/polysquare/cppcheck-target-cmake
-[submodule "cmake/GCov"]
-	path = cmake/GCov
-	url = git://github.com/polysquare/gcov-cmake
+[submodule "cmake/common"]
+	path = cmake/common
+	url = git://github.com/polysquare/common-universal-cmake

@@ -7,9 +7,7 @@ env:
  - CC_OVERLOAD=clang
    CXX_OVERLOAD=clang++
  # Clang Static Analysis
- - CC_OVERLOAD=${CC}
-   CXX_OVERLOAD=${CXX}
-   WRAPPER=scan-build
+ - SCAN_BUILD=1
  # GCov Coverage Build
  - CC_OVERLOAD=gcc
    CXX_OVERLOAD=g++
@@ -22,14 +20,22 @@ before_install:
   - sudo apt-get install -qq `cat DEPENDENCIES`
   - if [[ $COVERAGE == 1 ]] ; then sudo pip install cpp-coveralls; fi
 script:
+  - export CC=${CC_OVERLOAD}
+  - export CXX=${CXX_OVERLOAD}
   - mkdir build
-  - cd build
-  - CC=${CC_OVERLOAD} CXX=${CXX_OVERLOAD} ${WRAPPER} cmake .. `echo ${CMAKE_OPTIONS}`
-  - ${WRAPPER} make
-  - cd tests  
+  - pushd build
+  - if [[ $SCAN_BUILD == 1 ]] ; then
+      scan-build cmake .. `echo ${CMAKE_OPTIONS}`;
+      scan-build --use-cc=clang --use-c++=clang++ make;
+    else
+      cmake .. `echo ${CMAKE_OPTIONS}` -DCPP_SUBPROCESS_BOOST_USE_STATIC_LIBS=OFF;
+      make;
+    fi;
+  - pushd tests 
   - ./integration/cpp_subprocess_integration_tests
   - ./acceptance/cpp_subprocess_acceptance_tests
-  - cd ../../
+  - popd
+  - popd
 after_success:
  - if [[ $COVERAGE == 1 ]] ; then
      coveralls -E "(^.*\/cpp-subprocess\/build\/.*$)" -E "(^.*\/cpp-subprocess/\include\/.*$)" -E "(^.*\/cpp-subprocess\/generators\/.*$)";

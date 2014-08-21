@@ -55,7 +55,7 @@ namespace
             TmpEnv & operator= (TmpEnv const &) = delete;
 
             std::string const mEnvironmentKey;
-            std::string const mPreviousEnvironmentValue;
+            std::string const mPrevEnvironmentValue;
     };
 
     /* Older versions of cppcheck get confused by
@@ -87,19 +87,19 @@ namespace
 
 TmpEnv::TmpEnv (char const *env, char const *value) :
     mEnvironmentKey (env),
-mPreviousEnvironmentValue (ValueOrDefault(const_cast <CharCP> (getenv (env)),
-                                          ""))
+    mPrevEnvironmentValue (ValueOrDefault (const_cast <CharCP> (getenv (env)),
+                                           ""))
 {
     setenv (env, value, 1);
 }
 
 TmpEnv::~TmpEnv ()
 {
-    if (mPreviousEnvironmentValue.empty ())
+    if (mPrevEnvironmentValue.empty ())
         unsetenv (mEnvironmentKey.c_str ());
     else
         setenv (mEnvironmentKey.c_str (),
-                mPreviousEnvironmentValue.c_str (),
+                mPrevEnvironmentValue.c_str (),
                 1);
 }
 
@@ -142,8 +142,8 @@ TEST_F (LocateBinary, ThrowRuntimeErrorOnEmptyPath)
 
 TEST_F (LocateBinary, ThrowRuntimeErrorOnNotFoundInOnePath)
 {
-    std::string const PassedPath (MockExecutablePaths[0] + "/" + MockExecutable);
-    ON_CALL (os, access (StrEq (PassedPath), _))
+    std::string const FullPath (MockExecutablePaths[0] + "/" + MockExecutable);
+    ON_CALL (os, access (StrEq (FullPath), _))
         .WillByDefault (SimulateError (ENOENT));
 
     EXPECT_THROW ({
@@ -155,12 +155,12 @@ TEST_F (LocateBinary, ThrowRuntimeErrorOnNotFoundInOnePath)
 
 TEST_F (LocateBinary, ThrowRuntimeErrorOnNotFoundInMultiplePaths)
 {
-    std::string const PassedPath0 (MockExecutablePaths[0] + "/" + MockExecutable);
-    std::string const PassedPath1 (MockExecutablePaths[1] + "/" + MockExecutable);
+    std::string const FullPath0 (MockExecutablePaths[0] + "/" + MockExecutable);
+    std::string const FullPath1 (MockExecutablePaths[1] + "/" + MockExecutable);
 
-    ON_CALL (os, access (StrEq (PassedPath0), _))
+    ON_CALL (os, access (StrEq (FullPath0), _))
         .WillByDefault (SimulateError (ENOENT));
-    ON_CALL (os, access (StrEq (PassedPath1), _))
+    ON_CALL (os, access (StrEq (FullPath1), _))
         .WillByDefault (SimulateError (ENOENT));
 
     EXPECT_THROW ({

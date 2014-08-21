@@ -11,17 +11,6 @@ set (CPP_SUBPROCESS_HEADERS
      ${CMAKE_CURRENT_SOURCE_DIR}/pipe.h
      ${CMAKE_CURRENT_SOURCE_DIR}/readfd.h
      ${CMAKE_CURRENT_SOURCE_DIR}/redirectedfd.h)
-set (CPP_SUBPROCESS_CHECK_HEADERS_COMPLIANCE_TARGET cpp_subprocess_check_headers_compliance)
 
-# Create a new "proxy" target and set the SOURCES property on it
-# so that we can scan the source files for compliance when it is built
-add_custom_target (${CPP_SUBPROCESS_CHECK_HEADERS_COMPLIANCE_TARGET} ALL
-                   COMMENT "Checking headers compliance")
-
-# Scan that proxy target for compliance
-verapp_profile_check_source_files_conformance_for_target (${CPP_SUBPROCESS_VERAPP_OUTPUT_DIRECTORY}
-                                                          CPP_SUBPROCESS_HEADERS
-                                                          ${CPP_SUBPROCESS_VERAPP_PROFILE}
-                                                          ${CPP_SUBPROCESS_CHECK_HEADERS_COMPLIANCE_TARGET}
-                                                          ${CPP_SUBPROCESS_VERAPP_IMPORT_RULES}
-                                                          ERROR)
+polysquare_add_checked_sources (cpp_subprocess_headers
+                                SOURCES ${CPP_SUBPROCESS_HEADERS})
