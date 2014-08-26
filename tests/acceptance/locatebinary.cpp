@@ -8,6 +8,8 @@
  */
 
 #include <array>
+#include <functional>
+
 #include <cstdlib>
 
 #include <boost/tokenizer.hpp>
