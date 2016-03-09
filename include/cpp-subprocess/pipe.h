@@ -19,7 +19,7 @@ namespace polysquare
         {
             public:
 
-                Pipe (OperatingSystem const &os);
+                explicit Pipe (OperatingSystem const &os);
                 ~Pipe ();
 
                 /* Read end descriptor is read-only */
