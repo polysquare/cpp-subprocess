@@ -13,6 +13,8 @@
 
 #include <sys/types.h>
 
+struct pollfd;
+
 namespace polysquare
 {
     namespace subprocess
