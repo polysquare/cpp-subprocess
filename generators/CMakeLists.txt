@@ -10,20 +10,20 @@ set (CPP_SUBPROCESS_GENERATORS_COMMON_LIBRARY_SRCS
      ${CMAKE_CURRENT_SOURCE_DIR}/generators_common.cpp
      ${CMAKE_CURRENT_SOURCE_DIR}/generators_common.h)
 
-polysquare_add_library (${CPP_SUBPROCESS_GENERATORS_COMMON_LIBRARY} STATIC
-                        SOURCES
-                        ${CPP_SUBPROCESS_GENERATORS_COMMON_LIBRARY_SRCS}
-                        LIBRARIES ${CPP_SUBPROCESS_EXTERNAL_LIBRARIES}
-                        EXTERNAL_INCLUDE_DIRS
-                        ${CPP_SUBPROCESS_EXTERNAL_INCLUDE_DIRS})
+psq_add_library (${CPP_SUBPROCESS_GENERATORS_COMMON_LIBRARY} STATIC
+                 SOURCES
+                 ${CPP_SUBPROCESS_GENERATORS_COMMON_LIBRARY_SRCS}
+                 LIBRARIES ${CPP_SUBPROCESS_EXTERNAL_LIBRARIES}
+                 EXTERNAL_INCLUDE_DIRS
+                 ${CPP_SUBPROCESS_EXTERNAL_INCLUDE_DIRS})
 
 set (CPP_SUBPROCESS_STRING_REPLACEMENT_GENERATOR_SRCS
      ${CMAKE_CURRENT_SOURCE_DIR}/cpp_subprocess_string_replacement_generator.cpp)
 
-polysquare_add_executable (${CPP_SUBPROCESS_STRING_REPLACEMENT_GENERATOR}
-                           SOURCES
-                           ${CPP_SUBPROCESS_STRING_REPLACEMENT_GENERATOR_SRCS}
-                           LIBRARIES
-                           ${CPP_SUBPROCESS_GENERATORS_COMMON_LIBRARY}
-                           EXTERNAL_INCLUDE_DIRS
-                           ${CPP_SUBPROCESS_EXTERNAL_INCLUDE_DIRS})
+psq_add_executable (${CPP_SUBPROCESS_STRING_REPLACEMENT_GENERATOR}
+                    SOURCES
+                    ${CPP_SUBPROCESS_STRING_REPLACEMENT_GENERATOR_SRCS}
+                    LIBRARIES
+                    ${CPP_SUBPROCESS_GENERATORS_COMMON_LIBRARY}
+                    EXTERNAL_INCLUDE_DIRS
+                    ${CPP_SUBPROCESS_EXTERNAL_INCLUDE_DIRS})

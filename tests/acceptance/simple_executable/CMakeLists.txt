@@ -8,5 +8,5 @@
 set (SIMPLE_EXECUTABLE_SRCS
      ${CMAKE_CURRENT_SOURCE_DIR}/simple_executable.cpp)
 
-polysquare_add_executable (${SIMPLE_EXECUTABLE_BINARY}
-                           SOURCES ${SIMPLE_EXECUTABLE_SRCS})
+psq_add_executable (${SIMPLE_EXECUTABLE_BINARY}
+                    SOURCES ${SIMPLE_EXECUTABLE_SRCS})

@@ -12,5 +12,5 @@ set (CPP_SUBPROCESS_HEADERS
      ${CMAKE_CURRENT_SOURCE_DIR}/readfd.h
      ${CMAKE_CURRENT_SOURCE_DIR}/redirectedfd.h)
 
-polysquare_add_checked_sources (cpp_subprocess_headers
-                                SOURCES ${CPP_SUBPROCESS_HEADERS})
+psq_add_checked_sources (cpp_subprocess_headers
+                         SOURCES ${CPP_SUBPROCESS_HEADERS})
