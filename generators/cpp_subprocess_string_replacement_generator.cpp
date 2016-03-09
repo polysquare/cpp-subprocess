@@ -15,6 +15,7 @@
 #include <string>
 #include <utility>
 #include <vector>
+#include <iostream>
 
 #include <boost/algorithm/string/replace.hpp>
 
