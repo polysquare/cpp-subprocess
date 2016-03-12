@@ -65,7 +65,7 @@ TEST_F (Pipe, WriteAndRead)
                                        static_cast <void *> (msg),
                                        1);
 
-    assert (amountWritten != -1);
+    ASSERT_NE (amountWritten, -1) << "Expected data to be written";
 
     char buf[2];
 
@@ -76,16 +76,13 @@ TEST_F (Pipe, WriteAndRead)
 
     int ready = os->poll (&pfd, 1, 0);
 
-    assert (ready != -1);
-
     ASSERT_EQ (1, ready) << "Expected read end to be ready";
 
     ssize_t amountRead = os->read (pipe.ReadEnd (),
                                    static_cast <void *> (buf),
                                    1);
 
-    assert (amountRead != -1);
-
+    ASSERT_NE (amountRead, -1) << "Expected data to be read";
     EXPECT_EQ (msg[0], buf[0]) << "Expected data on read end";
 }
 

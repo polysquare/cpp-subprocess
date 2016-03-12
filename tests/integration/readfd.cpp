@@ -58,7 +58,8 @@ ReadFD::WriteMessage (std::string const &msg)
                                        data,
                                        msg.size ());
 
-    assert (amountWritten != -1);
+    if (amountWritten == -1)
+        throw std::system_error (errno, std::system_category ());
 }
 
 TEST_F (ReadFD, ReadFromPipe)

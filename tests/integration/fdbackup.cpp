@@ -56,9 +56,8 @@ class FDBackup :
 FDBackup::FDBackup () :
     os (ps::MakeOperatingSystem ())
 {
-    int result = os->pipe (pipe);
-
-    assert (result != -1);
+    if (os->pipe (pipe) == -1)
+        throw std::system_error (errno, std::system_category ());
 
     backup.reset (new ps::FDBackup (pipe[0], *os));
 
@@ -73,7 +72,8 @@ TEST_F (FDBackup, Restore)
                                        static_cast <void *> (msg),
                                        1);
 
-    assert (amountWritten != -1);
+    EXPECT_NE (amountWritten, -1) << "Expected data to be written: "
+                                  << strerror (errno);
 
     backup.reset ();
 
@@ -83,8 +83,6 @@ TEST_F (FDBackup, Restore)
     pfd.fd = pipe[0];
 
     int ready = os->poll (&pfd, 1, 0);
-
-    assert (ready != -1);
 
     EXPECT_EQ (1, ready) << "Expected data available to be read on restored fd";
 }

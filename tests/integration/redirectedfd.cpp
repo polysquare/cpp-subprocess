@@ -65,7 +65,8 @@ namespace
 
         int n = os.poll (&pfd, 1, 0);
 
-        assert (n != -1);
+        if (n == -1)
+            throw std::system_error (errno, std::system_category ());
 
         return n > 0;
     }
@@ -79,7 +80,8 @@ RedirectedFD::RedirectedFD () :
 {
     int result = close (from.WriteEnd ());
 
-    assert (result != -1);
+    if (result == -1)
+        throw std::system_error (errno, std::system_category ());
 
     redirected.reset (new ps::RedirectedFD (from.WriteEnd (),
                                             to.WriteEnd (),
@@ -91,7 +93,7 @@ TEST_F (RedirectedFD, WriteToNewFd)
     char buf[] = "a\0";
     ssize_t len = write (from.WriteEnd (), static_cast <void *> (buf), 1);
 
-    assert (len != -1);
+    ASSERT_NE (len, -1) << strerror (errno);
 
     /* There should be something to poll */
     EXPECT_TRUE (ReadyForReading (to, *os));
@@ -105,7 +107,7 @@ TEST_F (RedirectedFD, RestoredWriteToOldFd)
     char buf[] = "a\0";
     ssize_t len = write (from.WriteEnd (), static_cast <void *> (buf), 1);
 
-    assert (len != -1);
+    ASSERT_NE (len, -1) << strerror (errno);
 
     /* There should be nothing to poll */
     EXPECT_TRUE (ReadyForReading (from, *os));
