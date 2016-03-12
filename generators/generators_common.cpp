@@ -8,16 +8,14 @@
  */
 
 #include <algorithm>
-#include <cstring>
+#include <exception>
 #include <fstream>
-#include <functional>
-#include <iostream>
 #include <iterator>
-#include <locale>
-#include <sstream>
 #include <stdexcept>
 #include <string>
 #include <vector>
+
+#include <cstring>
 
 #include <boost/program_options.hpp>
 

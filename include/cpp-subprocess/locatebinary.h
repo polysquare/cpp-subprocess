@@ -10,7 +10,9 @@
 #ifndef POLYSQUARE_CPP_SUBPROCESS_LOCATE_BINARY_H
 #define POLYSQUARE_CPP_SUBPROCESS_LOCATE_BINARY_H
 
-#include <functional>
+#include <exception>
+#include <functional>  // IWYU pragma: keep
+#include <stdexcept>
 #include <string>
 
 namespace polysquare

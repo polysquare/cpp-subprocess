@@ -7,24 +7,37 @@
  * See LICENSE.md for Copyright information
  */
 
-#include <array>
-#include <functional>
+#include <array>  // IWYU pragma: keep
+#include <memory>  // IWYU pragma: keep
+#include <sstream>
+#include <stdexcept>
+#include <string>
+#include <vector>  // IWYU pragma: keep
 
 #include <cstdlib>
 
-#include <boost/tokenizer.hpp>
+#include <unistd.h>
 
-#include <gmock/gmock.h>
+#include <errno.h> // IWYU pragma: keep
 
-#include "acceptance_tests_config.h"
+#include <gmock/gmock-actions.h>
+#include <gmock/gmock-generated-actions.h>
+#include <gmock/gmock-matchers.h>
+#include <gmock/gmock-spec-builders.h>
+#include <gtest/gtest.h>
+
+#include <boost/tokenizer.hpp>  // IWYU pragma: keep
+// IWYU pragma: no_include <boost/token_functions.hpp>
 
 #include <cpp-subprocess/locatebinary.h>
+#include <cpp-subprocess/operating_system.h>  // IWYU pragma: keep
 #include <cpp-subprocess/pipe.h>
-#include <cpp-subprocess/operating_system.h>
+#include <cpp-subprocess/readfd.h>  // IWYU pragma: keep
 #include <cpp-subprocess/redirectedfd.h>
-#include <cpp-subprocess/readfd.h>
 
-#include <mock_operating_system.h>
+#include <mock_operating_system.h>  // IWYU pragma: keep
+
+#include "acceptance_tests_config.h"
 
 using ::testing::_;
 using ::testing::DoAll;

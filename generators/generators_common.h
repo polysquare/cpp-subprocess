@@ -9,11 +9,8 @@
 #ifndef CPP_SUBPROCESS_GENERATORS_COMMON_H
 #define CPP_SUBPROCESS_GENERATORS_COMMON_H
 
-#include <functional>
-#include <string>
+#include <string>  // IWYU pragma: keep
 #include <vector>
-
-#include <boost/program_options.hpp>
 
 namespace polysquare
 {

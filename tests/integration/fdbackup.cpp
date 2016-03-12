@@ -6,23 +6,31 @@
  * See LICENSE.md for Copyright information
  */
 
-#include <memory>
-#include <stdexcept>
+#include <memory>  // IWYU pragma: keep
+#include <stdexcept>  // IWYU pragma: keep
+#include <string>  // IWYU pragma: keep
+#include <system_error>  // IWYU pragma: keep
 
+#include <poll.h>
+#include <string.h>
+#include <unistd.h>
+
+#include <errno.h>  // IWYU pragma: keep
+
+#include <gmock/gmock-actions.h>
+#include <gmock/gmock-matchers.h>
+#include <gmock/gmock-spec-builders.h>
+#include <gtest/gtest-message.h>
 #include <gtest/gtest.h>
 
-#include <unistd.h>
-#include <sys/poll.h>
-#include <fcntl.h>
-#include <errno.h>
-
-#include <cpp-subprocess/operating_system.h>
 #include <cpp-subprocess/fdbackup.h>
+#include <cpp-subprocess/operating_system.h>  // IWYU pragma: keep
 #include <cpp-subprocess/pipe.h>
-#include <cpp-subprocess/readfd.h>
+#include <cpp-subprocess/readfd.h>  // IWYU pragma: keep
 #include <cpp-subprocess/redirectedfd.h>
 
 #include <mock_operating_system.h>
+
 
 namespace ps = polysquare::subprocess;
 namespace psm = polysquare::subprocess::mocks;

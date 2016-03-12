@@ -9,7 +9,8 @@
 #ifndef POLYSQUARE_CPP_SUBPROCESS_LAUNCH_H
 #define POLYSQUARE_CPP_SUBPROCESS_LAUNCH_H
 
-#include <string>
+#include <string> // IWYU: keep
+
 #include <unistd.h>
 
 namespace polysquare

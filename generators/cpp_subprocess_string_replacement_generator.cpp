@@ -7,19 +7,22 @@
  * See LICENCE.md for Copyright information.
  */
 
-#include <algorithm>
-#include <cstring>
-#include <functional>
-#include <locale>
-#include <sstream>
+#include <exception>
+#include <iostream>
+#include <iterator>
+#include <stdexcept>
 #include <string>
 #include <utility>
 #include <vector>
-#include <iostream>
+#include <sstream> // IWYU pragma: keep
 
-#include <boost/algorithm/string/replace.hpp>
+#include <stddef.h> // IWYU pragma: keep
 
 #include <libgen.h>
+#include <stdlib.h>
+#include <cstring>
+
+#include <boost/algorithm/string/replace.hpp>  // IWYU pragma: keep
 
 #include "generators_common.h"
 

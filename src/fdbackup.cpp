@@ -10,8 +10,7 @@
 #include <iostream>
 #include <stdexcept>
 
-#include <unistd.h>
-#include <errno.h>
+#include <errno.h>  // IWYU pragma: keep
 #include <string.h>
 
 #include <cpp-subprocess/fdbackup.h>

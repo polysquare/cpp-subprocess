@@ -5,19 +5,25 @@
  *
  * See LICENSE.md for Copyright information
  */
+
+#include <memory> // IWYU pragma: keep
 #include <stdexcept>
+#include <system_error> // IWYU pragma: keep
 
-#include <memory>
+#include <poll.h>
+#include <string.h>
+#include <errno.h> // IWYU pragma: keep
+#include <unistd.h>
 
-#include <gmock/gmock.h>
-
-#include <stdio.h>
-#include <sys/poll.h>
+#include <gmock/gmock-actions.h>
+#include <gmock/gmock-matchers.h>
+#include <gmock/gmock-spec-builders.h>
+#include <gtest/gtest.h>
 
 #include <cpp-subprocess/fdbackup.h>
 #include <cpp-subprocess/operating_system.h>
 #include <cpp-subprocess/pipe.h>
-#include <cpp-subprocess/readfd.h>
+#include <cpp-subprocess/readfd.h> // IWYU pragma: keep
 #include <cpp-subprocess/redirectedfd.h>
 
 #include <mock_operating_system.h>

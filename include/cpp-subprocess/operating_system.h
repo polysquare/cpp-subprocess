@@ -9,11 +9,12 @@
 #ifndef POLYSQUARE_SUBPROCESS_OPERATING_SYSTEM_H
 #define POLYSQUARE_SUBPROCESS_OPERATING_SYSTEM_H
 
-#include <memory>
+#include <memory>  // IWYU pragma: keep
 
+#include <stddef.h>
 #include <sys/types.h>
 
-struct pollfd;
+typedef struct pollfd pollfd_t;
 
 namespace polysquare
 {

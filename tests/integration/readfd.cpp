@@ -6,17 +6,20 @@
  * See LICENSE.md for Copyright information
  */
 
-#include <stdexcept>
+#include <string>
+#include <system_error> // IWYU pragma: keep
 
-#include <gmock/gmock.h>
-
-#include <assert.h>
 #include <unistd.h>
-#include <errno.h>
+
+#include <errno.h>  // IWYU pragma: keep
+
+#include <gtest/gtest.h>
+#include <gmock/gmock-generated-matchers.h>
+#include <gmock/gmock-matchers.h>
 
 #include <cpp-subprocess/operating_system.h>
 #include <cpp-subprocess/pipe.h>
-#include <cpp-subprocess/readfd.h>
+#include <cpp-subprocess/readfd.h> // IWYU pragma: keep
 
 namespace ps = polysquare::subprocess;
 

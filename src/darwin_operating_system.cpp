@@ -5,11 +5,13 @@
  * See LICENCE.md for Copyright information.
  */
 
-#include <fcntl.h>
 #include <unistd.h>
+#include <stddef.h>
 
-#include <sys/poll.h>
+#include <sys/fcntl.h>
 #include <sys/wait.h>
+
+#include <poll.h>
 
 #include <cpp-subprocess/operating_system.h>
 

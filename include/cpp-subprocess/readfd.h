@@ -11,9 +11,8 @@
 #ifndef POLYSQUARE_CPP_SUBPROCESS_READFD_H
 #define POLYSQUARE_CPP_SUBPROCESS_READFD_H
 
-#include <memory>
-#include <vector>
-#include <string>
+#include <vector> // IWYU pragma: keep
+#include <string> // IWYU pragma: keep
 
 namespace polysquare
 {

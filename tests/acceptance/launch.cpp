@@ -7,12 +7,16 @@
  * See LICENCE.md for Copyright information
  */
 
+#include <string> // IWYU pragma: keep
+
 #include <gtest/gtest.h>
 
+#include <stddef.h>
+
 #include <cpp-subprocess/launch.h>
-#include <cpp-subprocess/operating_system.h>
+#include <cpp-subprocess/operating_system.h> // IWYU pragma: keep
 #include <cpp-subprocess/pipe.h>
-#include <cpp-subprocess/readfd.h>
+#include <cpp-subprocess/readfd.h>  // IWYU pragma: keep
 
 #include <acceptance_tests_config.h>
 

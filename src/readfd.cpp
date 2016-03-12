@@ -8,18 +8,26 @@
  * See LICENCE.md for Copyright information.
  */
 
-#include <functional>
-#include <string>
+#include <functional> // IWYU pragma: keep
+#include <string> // IWYU pragma: keep
 #include <sstream>
 #include <vector>
 
 #include <boost/iostreams/device/file_descriptor.hpp>
-#include <boost/iostreams/stream.hpp>
+#include <boost/iostreams/stream.hpp> // IWYU pragma: keep
 
-#include <fcntl.h>
+#include <fcntl.h> // IWYU pragma: keep
 
 #include <cpp-subprocess/operating_system.h>
-#include <cpp-subprocess/readfd.h>
+#include <cpp-subprocess/readfd.h> // IWYU pragma: keep
+
+// IWYU pragma: no_include <__functional_03>
+// IWYU pragma: no_include <boost/iostreams/categories.hpp>
+// IWYU pragma: no_include <boost/iostreams/detail/error.hpp>
+// IWYU pragma: no_include <boost/iostreams/detail/forward.hpp>
+// IWYU pragma: no_include <boost/iostreams/stream_buffer.hpp>
+// IWYU pragma: no_include <boost/iostreams/traits.hpp>
+// IWYU pragma: no_include <bits/fcntl-linux.h>
 
 namespace bio = boost::iostreams;
 namespace ps = polysquare::subprocess;

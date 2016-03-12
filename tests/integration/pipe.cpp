@@ -6,17 +6,23 @@
  * See LICENSE.md for Copyright information
  */
 
+#include <sstream>
 #include <stdexcept>
+#include <string>
+
+#include <poll.h>
+#include <unistd.h>
 
 #include <gtest/gtest.h>
-
-#include <unistd.h>
-#include <sys/poll.h>
-#include <errno.h>
+#include <gmock/gmock-actions.h>
+#include <gmock/gmock-generated-actions.h>
+#include <gmock/gmock-matchers.h>
+#include <gmock/gmock-more-actions.h>
+#include <gmock/gmock-spec-builders.h>
 
 #include <cpp-subprocess/operating_system.h>
 #include <cpp-subprocess/pipe.h>
-#include <cpp-subprocess/readfd.h>
+#include <cpp-subprocess/readfd.h>  // IWYU pragma: keep
 #include <cpp-subprocess/redirectedfd.h>
 
 #include <mock_operating_system.h>

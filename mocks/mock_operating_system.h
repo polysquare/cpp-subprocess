@@ -9,8 +9,10 @@
 #ifndef POLYSQUARE_SUBPROCESS_MOCK_OPERATING_SYSTEM_H
 #define POLYSQUARE_SUBPROCESS_MOCK_OPERATING_SYSTEM_H
 
-#include <functional>
-#include <gmock/gmock.h>
+#include <stddef.h>
+#include <sys/types.h>
+
+#include <gmock/gmock-generated-function-mockers.h>
 
 #include <cpp-subprocess/operating_system.h>
 
