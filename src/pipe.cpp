@@ -1,11 +1,10 @@
-/*
- * pipe.cpp
+/* /src/pipe.cpp
  *
  * Utility class to create a unix pipe and
  * close it on teardown
  *
- * See LICENSE.md for Copyright information
- */
+ * See /LICENCE.md for Copyright information */
+
 #include <iostream>
 #include <stdexcept>
 

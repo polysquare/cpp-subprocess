@@ -1,11 +1,9 @@
-/*
- * launch.cpp
+/* /tests/acceptance/launch.cpp
  *
  * Test that when we launch a binary we can collect
  * its return code, output etc
  *
- * See LICENCE.md for Copyright information
- */
+ * See /LICENCE.md for Copyright information */
 
 #include <string> // IWYU pragma: keep
 

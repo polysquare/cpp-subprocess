@@ -1,11 +1,9 @@
-/*
- * launch.cpp
+/* /src/launch.cpp
  *
  * Utility function to launch a binary and collect
- * the return code, stdin and stdout
+ * the return code, stain and stdout
  *
- * See LICENSE.md for Copyright information
- */
+ * See /LICENCE.md for Copyright information */
 
 #include <iostream>
 #include <stdexcept>

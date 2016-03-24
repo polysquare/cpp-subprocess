@@ -1,10 +1,8 @@
-/*
- * pipe.cpp
+/* /tests/integration/pipe.cpp
  *
- * Test pipe creation and deletion with pipe2
+ * Test pipe creation and deletion with pipe
  *
- * See LICENSE.md for Copyright information
- */
+ * See /LICENCE.md for Copyright information */
 
 #include <sstream>
 #include <stdexcept>

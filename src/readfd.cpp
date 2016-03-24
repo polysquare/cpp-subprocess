@@ -1,12 +1,10 @@
-/*
- * readfd.cpp
+/* /src/readfd.cpp
  *
- * Some utility functons to read the contents of a file
+ * Some utility functions to read the contents of a file
  * descriptor, either into a vector of lines or
  * a single string.
  *
- * See LICENCE.md for Copyright information.
- */
+ * See /LICENCE.md for Copyright information */
 
 #include <functional> // IWYU pragma: keep
 #include <string> // IWYU pragma: keep

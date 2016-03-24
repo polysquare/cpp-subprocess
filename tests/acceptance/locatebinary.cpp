@@ -1,11 +1,9 @@
-/*
- * locatebinary.cpp
+/* /tests/acceptance/locatebinary.cpp
  *
  * Test traversing PATH until a suitable
  * instance of a binary can be located
  *
- * See LICENSE.md for Copyright information
- */
+ * See /LICENCE.md for Copyright information */
 
 #include <array>  // IWYU pragma: keep
 #include <memory>  // IWYU pragma: keep
@@ -101,7 +99,7 @@ namespace
                                      }
                                  };
     }
-    
+
     typedef char const * CharCP;
 }
 

@@ -1,10 +1,8 @@
-/*
- * redirectedfd.cpp
+/* /tests/integration/redirectedfd.cpp
  *
  * Test redirecting one fd to another
  *
- * See LICENSE.md for Copyright information
- */
+ * See /LICENCE.md for Copyright information */
 
 #include <memory> // IWYU pragma: keep
 #include <stdexcept>

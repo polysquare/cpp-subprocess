@@ -1,11 +1,9 @@
-/*
- * locatebinary.cpp
+/* /src/locatebinary.cpp
  *
  * Traverse PATH until a suitable instance
  * of a binary can be located
  *
- * See LICENSE.md for Copyright information
- */
+ * See /LICENCE.md for Copyright information */
 
 #include <iostream>
 #include <stdexcept>

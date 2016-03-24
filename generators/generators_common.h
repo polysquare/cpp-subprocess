@@ -1,11 +1,10 @@
-/*
- * generators_common.h
+/* /generators/generators_common.h
  *
- * Tool used to parse an input template .h and .cpp files
+ * Tool used to parse an input template /.h and /.cpp files
  * and replace tokens for output files based on parameters.
  *
- * See LICENCE.md for Copyright information.
- */
+ * See /LICENCE.md for Copyright information */
+
 #ifndef CPP_SUBPROCESS_GENERATORS_COMMON_H
 #define CPP_SUBPROCESS_GENERATORS_COMMON_H
 

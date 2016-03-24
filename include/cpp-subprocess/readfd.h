@@ -1,12 +1,10 @@
-/*
- * readfd.h
+/* /include/cpp-subprocess/readfd.h
  *
- * Some utility functons to read the contents of a file
+ * Some utility functions to read the contents of a file
  * descriptor, either into a vector of lines or
  * a single string.
  *
- * See LICENCE.md for Copyright information.
- */
+ * See /LICENCE.md for Copyright information */
 
 #ifndef POLYSQUARE_CPP_SUBPROCESS_READFD_H
 #define POLYSQUARE_CPP_SUBPROCESS_READFD_H

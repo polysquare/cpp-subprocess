@@ -1,16 +1,14 @@
-/*
- * nonportable_gnu.h
+/* /src/nonportable_gnu.h
  *
  * Include this header to use the nonportable
- * GNU extensions to POSIX.
+ * GNU extensions to posix.
  *
- * Do not include this header in any vera++
+ * Do not include this header in any cpp++
  * checks as it defines the reserved word
  * _GNU_SOURCE which is technically an error
  * except in these circumstances
  *
- * See LICENCE.md for Copyright information
- */
+ * See /LICENCE.md for Copyright information */
 
 #ifndef YIQI_NONPORTABLE_GNU_H
 #define YIQI_NONPORTABLE_GNU_H

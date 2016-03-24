@@ -1,9 +1,8 @@
-/*
- * gnu_operating_system.cpp
+/* /src/gnu_operating_system.cpp
+ *
  * Implementation of UNIX system calls for GNU systems
  *
- * See LICENCE.md for Copyright information.
- */
+ * See /LICENCE.md for Copyright information */
 
 #include "nonportable_gnu.h"  // IWYU pragma: keep
 

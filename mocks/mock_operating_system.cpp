@@ -1,11 +1,9 @@
-/*
- * mock_operating_system.cpp
+/* /mocks/mock_operating_system.cpp
  *
- * Implementation detals for Mock Operating System
+ * Implementation deals for Mock Operating System
  * calls for cpp-subprocess.
  *
- * See LICENCE.md for Copyright information.
- */
+ * See /LICENCE.md for Copyright information */
 
 #include <gmock/gmock-cardinalities.h>
 #include <gmock/gmock-spec-builders.h>

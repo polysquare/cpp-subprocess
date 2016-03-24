@@ -1,10 +1,8 @@
-/*
- * readfd.cpp
+/* /tests/integration/readfd.cpp
  *
  * Test reading from an arbitrary fd.
  *
- * See LICENSE.md for Copyright information
- */
+ * See /LICENCE.md for Copyright information */
 
 #include <string>
 #include <system_error> // IWYU pragma: keep

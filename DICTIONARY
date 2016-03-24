@@ -1,3 +1,17 @@
 CMake
 cpp
+cppcheck
+descriptor's
+EWOULDBLOCK
+initializers
+nonportable
+polysquare_cpp_subprocess
+polysquare_cpp_subprocess_mocks
+posix
 subprocess
+stderr
+stdin
+stdout
+teardown
+userland
+whitespace

@@ -1,11 +1,10 @@
-/*
- * pipe.h
+/* /include/cpp-subprocess/pipe.h
  *
  * Utility class to create a unix pipe and
  * close it on teardown
  *
- * See LICENSE.md for Copyright information
- */
+ * See /LICENCE.md for Copyright information */
+
 #ifndef POLYSQUARE_CPP_SUBPROCESS_PIPE_H
 #define POLYSQUARE_CPP_SUBPROCESS_PIPE_H
 

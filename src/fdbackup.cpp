@@ -1,11 +1,9 @@
-/*
- * fdbackup.cpp
+/* /src/fdbackup.cpp
  *
  * Utility class to save file descriptor names and restore them
  * later
  *
- * See LICENSE.md for Copyright information
- */
+ * See /LICENCE.md for Copyright information */
 
 #include <iostream>
 #include <stdexcept>

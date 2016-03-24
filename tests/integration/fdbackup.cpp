@@ -1,10 +1,8 @@
-/*
- * fdbackup.cpp
+/* /tests/integration/fdbackup.cpp
  *
  * Test backup and restore with dup2
  *
- * See LICENSE.md for Copyright information
- */
+ * See /LICENCE.md for Copyright information */
 
 #include <memory>  // IWYU pragma: keep
 #include <stdexcept>  // IWYU pragma: keep

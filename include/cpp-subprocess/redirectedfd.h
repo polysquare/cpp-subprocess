@@ -1,11 +1,10 @@
-/*
- * redirectedfd.h
+/* /include/cpp-subprocess/redirectedfd.h
  *
  * Utility class to redirect operations on one
  * file descriptor into another until destruction.
  *
- * See LICENSE.md for Copyright information
- */
+ * See /LICENCE.md for Copyright information */
+
 #ifndef POLYSQUARE_CPP_SUBPROCESS_REDIRECTEDFD_H
 #define POLYSQUARE_CPP_SUBPROCESS_REDIRECTEDFD_H
 

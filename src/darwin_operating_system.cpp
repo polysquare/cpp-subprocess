@@ -1,9 +1,8 @@
-/*
- * darwin_operating_system.cpp
+/* /src/darwin_operating_system.cpp
+ *
  * Implementation of UNIX system calls for Darwin
  *
- * See LICENCE.md for Copyright information.
- */
+ * See /LICENCE.md for Copyright information */
 
 #include <unistd.h>
 #include <stddef.h>

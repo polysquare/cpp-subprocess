@@ -1,11 +1,10 @@
-/*
- * launch.h
+/* /include/cpp-subprocess/launch.h
  *
  * Utility function to launch a binary and collect
- * the return code, stdin and stdout
+ * the return code, stain and stdout
  *
- * See LICENSE.md for Copyright information
- */
+ * See /LICENCE.md for Copyright information */
+
 #ifndef POLYSQUARE_CPP_SUBPROCESS_LAUNCH_H
 #define POLYSQUARE_CPP_SUBPROCESS_LAUNCH_H
 
