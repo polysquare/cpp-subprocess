@@ -1,7 +1,8 @@
 # /CMakeLists.txt
+#
 # Main CMake file for cpp-subprocess.
 #
-# See LICENCE.md for Copyright Information.
+# See /LICENCE.md for Copyright information
 
 project (CPPSubprocess)
 

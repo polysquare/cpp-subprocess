@@ -1,6 +1,8 @@
 # /tests/CMakeLists.txt
 #
-# Build acceptance and integration tests
+# Build acceptance and integration tests.
+#
+# See /LICENCE.md for Copyright information
 
 set (CPP_SUBPROCESS_ACCEPTANCE_TESTS_DIRECTORY
      "${CMAKE_CURRENT_SOURCE_DIR}/acceptance")

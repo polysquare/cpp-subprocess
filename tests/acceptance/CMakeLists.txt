@@ -1,8 +1,8 @@
 # /tests/acceptance/CMakeLists.txt
 #
-# Build cpp-subprocess acceptance tests
+# Build cpp-subprocess acceptance tests.
 #
-# See LICENCE.md for Copyright information.
+# See /LICENCE.md for Copyright information
 
 set (SIMPLE_EXECUTABLE_BINARY simple_executable)
 set (SIMPLE_EXECUTABLE_BINARY_DIRECTORY

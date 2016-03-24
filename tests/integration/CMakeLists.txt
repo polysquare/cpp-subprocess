@@ -1,7 +1,8 @@
 # /tests/integration/CMakeLists.txt
+#
 # Build cpp-subprocess integration tests.
 #
-# See LICENCE.md for Copyright information.
+# See /LICENCE.md for Copyright information
 
 set (CPP_SUBPROCESS_INTEGRATION_TESTS
      cpp_subprocess_integration_tests)

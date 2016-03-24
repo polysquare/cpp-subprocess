@@ -1,7 +1,8 @@
 # /mocks/CMakeLists.txt
+#
 # Build polysquare_cpp_subprocess_mocks library.
 #
-# See LICENCE.md for Copyright information.
+# See /LICENCE.md for Copyright information
 
 set (CPP_SUBPROCESS_MOCKS_SRCS
      "${CMAKE_CURRENT_SOURCE_DIR}/mock_operating_system.cpp")

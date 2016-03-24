@@ -2,7 +2,7 @@
 #
 # Build polysquare_cpp_subprocess library.
 #
-# See LICENCE.md for Copyright information.
+# See /LICENCE.md for Copyright information
 
 set (CPP_SUBPROCESS_LIBRARY_SRCS
      "${CMAKE_CURRENT_SOURCE_DIR}/fdbackup.cpp"

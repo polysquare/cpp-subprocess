@@ -1,8 +1,9 @@
 # /generators/CMakeLists.txt
-# Build some simple code generators used to determine the
-# available instrumentation tools at compile time
 #
-# See LICENCE.md for Copyright information
+# Build some simple code generators used to determine the
+# available instrumentation tools at compile time.
+#
+# See /LICENCE.md for Copyright information
 
 set (CPP_SUBPROCESS_GENERATORS_COMMON_LIBRARY
      cpp_subprocess_tools_generators_common)
