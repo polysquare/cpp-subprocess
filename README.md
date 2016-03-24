@@ -4,8 +4,8 @@ Some C++ subprocess handling classes.
 
 Status
 ======
-[![Build Status](https://travis-ci.org/polysquare/cpp-subprocess.svg?branch=master)](https://travis-ci.org/polysquare/cpp-subprocess)
-[![Coverage Status](https://coveralls.io/repos/polysquare/cpp-subprocess/badge.png?branch=master)](https://coveralls.io/r/polysquare/cpp-subprocess?branch=master)
+[![Build](https://travis-ci.org/polysquare/cpp-subprocess.svg?branch=master)](https://travis-ci.org/polysquare/cpp-subprocess)
+[![Coverage](https://coveralls.io/repos/polysquare/cpp-subprocess/badge.png?branch=master)](https://coveralls.io/r/polysquare/cpp-subprocess?branch=master)
 
 Usage
 ====
