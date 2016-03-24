@@ -1,14 +1,13 @@
 CPP Subprocess
 ==============
+
 Some C++ subprocess handling classes.
 
 Status
-======
+------
+
 [![Build](https://travis-ci.org/polysquare/cpp-subprocess.svg?branch=master)](https://travis-ci.org/polysquare/cpp-subprocess)
 [![Coverage](https://coveralls.io/repos/polysquare/cpp-subprocess/badge.png?branch=master)](https://coveralls.io/r/polysquare/cpp-subprocess?branch=master)
-
-Usage
-====
 
 Finding a binary in $PATH
 -------------------------
@@ -40,7 +39,6 @@ Finding a binary in $PATH
     {
         std::cerr << error.what ();
     }
-
 
 Launching a new binary asynchronously and capturing its input
 -------------------------------------------------------------
@@ -124,13 +122,14 @@ Launching a subprocess synchronously
         std::cerr << error.what ();
     };
 
-Reading a file descriptor to a std::vector <string>
+Reading a file descriptor to a std::vector
 --------------------------------------------
 
     #include <cpp-subprocess/readfd.h>
 
     try
     {
-        std::vector <string> lines = ps::ReadFDToLines (fd, ps::MakeOperatingSystem ());
+        auto os = ps::MakeOperatingSystem ()
+        std::vector <string> lines = ps::ReadFDToLines (fd, os);
     }
 
