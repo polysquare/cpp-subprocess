@@ -6,7 +6,7 @@
 # See LICENCE.md for Copyright Information.
 
 set (SIMPLE_EXECUTABLE_SRCS
-     ${CMAKE_CURRENT_SOURCE_DIR}/simple_executable.cpp)
+     "${CMAKE_CURRENT_SOURCE_DIR}/simple_executable.cpp")
 
 psq_add_executable (${SIMPLE_EXECUTABLE_BINARY}
                     SOURCES ${SIMPLE_EXECUTABLE_SRCS})
