@@ -1,0 +1,6 @@
+clang-3.6
+clang++-3.6
+git
+google-mock
+vera++
+cppcheck
