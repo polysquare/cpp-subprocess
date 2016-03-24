@@ -15,23 +15,23 @@ Finding a binary in $PATH
 
     #include <string>
     #include <vector>
-    
+
     #include <boost/algorithm/string.hpp>
-    
+
     #include <cpp-subprocess/locatebinary.h>
     #include <cpp-subprocess/operating_system.h>
-    
+
     #include <cstdlib>
-    
+
     namespace ps = polysquare::subprocess;
-    
+
     char *paths = ::getenv ("PATH");
-    
+
     std::vector <std::string> paths;
     boost::split (paths, boost::is_any_of (";"), boost::token_compress_on);
-    
+
     std::string binary;
-    
+
     try
     {
         binary = ps::locateBinary ("echo", paths, ps::MakeOperatingSystem ());
@@ -68,7 +68,7 @@ Launching a new binary asynchronously and capturing its input
                                 stderr[1],
                                 stdout[1],
                                 ps::MakeOperatingSystem ());
-    
+
     }
     catch (std::exception const &error)
     {
@@ -117,7 +117,7 @@ Launching a subprocess synchronously
                                                 stderr[1],
                                                 stdout[1],
                                                 ps::MakeOperatingSystem ());
-    
+
     }
     catch (std::exception const &error)
     {
