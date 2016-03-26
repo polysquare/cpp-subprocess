@@ -24,4 +24,5 @@ psq_add_test (${CPP_SUBPROCESS_INTEGRATION_TESTS}
               LIBRARIES
               ${CPP_SUBPROCESS_EXTERNAL_LIBRARIES}
               ${CPP_SUBPROCESS_LIBRARY}
-              MOCKS ${CPP_SUBPROCESS_MOCKS})
+              MOCKS ${CPP_SUBPROCESS_MOCKS}
+              MAIN_LIBRARY "cpp_subprocess_test_main")

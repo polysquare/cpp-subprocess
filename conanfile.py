@@ -27,7 +27,8 @@ class CPPSubprocessCMakeConan(ConanFile):
     generators = "cmake"
     requires = (
         "common-universal-cmake/master@smspillaz/common-universal-cmake",
-        "Boost/1.60.0@lasote/stable"
+        "gtest-tap-listener-mocha/master@smspillaz/gtest-tap-listener-mocha",
+        "Boost/1.60.0@lasote/ci"
     )
     url = "http://github.com/polysquare/cpp-subprocess"
     license = "MIT"
