@@ -1,6 +1,6 @@
 /* /tests/main.cpp
  *
- * A test entrypoint which enables the use of the tap listener.
+ * A test entry-point which enables the use of the tap listener.
  *
  * See /LICENCE.md for Copyright information */
 
@@ -88,7 +88,7 @@ int main (int argc, char **argv)
         delete listeners.Release (listeners.default_result_printer ());
         listeners.Append (listener.release ());
     }
-    
+
 
     return RUN_ALL_TESTS ();
 }
