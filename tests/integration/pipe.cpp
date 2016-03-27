@@ -132,7 +132,7 @@ TEST_F (PipeWithMockedBackend, ComplainsOnPipeFailureToClose)
         ps::Pipe pipe (os);
     }
 
-    auto lines = ps::ReadFDToLines (stderrPipe.ReadEnd (), realOS);
+    auto lines = ps::ReadFDToLines (stderrPipe.ReadEnd (), *realOS);
 
     Matcher <std::string> const closeErrors[] =
     {

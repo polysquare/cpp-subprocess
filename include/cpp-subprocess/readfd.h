@@ -19,12 +19,12 @@ namespace polysquare
         class OperatingSystem;
 
         std::vector <std::string>
-        ReadFDToLines (int                                     fd,
-                       std::unique_ptr <OperatingSystem> const &os);
+        ReadFDToLines (int                   fd,
+                       OperatingSystem const &os);
 
         std::string
-        ReadFDToString (int                                     fd,
-                        std::unique_ptr <OperatingSystem> const &os);
+        ReadFDToString (int                   fd,
+                        OperatingSystem const &os);
     }
 }
 

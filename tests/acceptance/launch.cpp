@@ -64,14 +64,14 @@ Launch::LaunchBinary ()
 TEST_F (Launch, CaptureStdout)
 {
     LaunchBinary ();
-    std::string output = ps::ReadFDToString (stdoutPipe.ReadEnd (), os);
+    std::string output = ps::ReadFDToString (stdoutPipe.ReadEnd (), *os);
     EXPECT_EQ ("output\n", output);
 }
 
 TEST_F (Launch, CaptureStderr)
 {
     LaunchBinary ();
-    std::string error = ps::ReadFDToString (stderrPipe.ReadEnd (), os);
+    std::string error = ps::ReadFDToString (stderrPipe.ReadEnd (), *os);
     EXPECT_EQ ("error\n", error);
 }
 

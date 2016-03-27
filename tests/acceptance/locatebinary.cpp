@@ -211,7 +211,7 @@ TEST_F (LocateBinary, ComplainToStderrOnOtherError)
     {
     }
 
-    auto lines = ps::ReadFDToLines (stderrPipe.ReadEnd (), realOS);
+    auto lines = ps::ReadFDToLines (stderrPipe.ReadEnd (), *realOS);
 
     Matcher <std::string> const closeErrors[] =
     {

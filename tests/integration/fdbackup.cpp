@@ -128,7 +128,7 @@ TEST_F (MockedOSFDBackup, ComplainsToStandardErrorWhenDup2Fails)
         ps::FDBackup backup (1, os);
     }
 
-    auto errors = ps::ReadFDToString (stderrPipe.ReadEnd (), realOS);
+    auto errors = ps::ReadFDToString (stderrPipe.ReadEnd (), *realOS);
 
     EXPECT_THAT (errors, HasSubstr ("Failed to restore file descriptor"));
 }

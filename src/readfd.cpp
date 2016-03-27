@@ -39,18 +39,18 @@ namespace
     {
         public:
 
-            NonblockGuard (int                               fd,
-                           ps::OperatingSystem::Unique const &os) :
+            NonblockGuard (int                       fd,
+                           ps::OperatingSystem const &os) :
                 mFD (fd),
                 mOS (os),
-                mLastFlags (os->fcntl_getfl (fd))
+                mLastFlags (os.fcntl_getfl (fd))
             {
-                mOS->fcntl_setfl (mFD, mLastFlags | O_NONBLOCK);
+                mOS.fcntl_setfl (mFD, mLastFlags | O_NONBLOCK);
             }
 
             ~NonblockGuard ()
             {
-                mOS->fcntl_setfl (mFD, mLastFlags);
+                mOS.fcntl_setfl (mFD, mLastFlags);
             }
 
         private:
@@ -59,14 +59,14 @@ namespace
             NonblockGuard (NonblockGuard &&) = delete;
             NonblockGuard & operator= (NonblockGuard const &) = delete;
 
-            int                               mFD;
-            ps::OperatingSystem::Unique const &mOS;
-            int                               mLastFlags;
+            int                       mFD;
+            ps::OperatingSystem const &mOS;
+            int                       mLastFlags;
     };
 
-    void ReadFD (int                               fd,
-                 InsertLine const                  &insert,
-                 ps::OperatingSystem::Unique const &os)
+    void ReadFD (int                       fd,
+                 InsertLine const          &insert,
+                 ps::OperatingSystem const &os)
     {
         NonblockGuard nonblock (fd, os);
 
@@ -89,8 +89,8 @@ namespace
 }
 
 std::vector <std::string>
-ps::ReadFDToLines (int                           fd,
-                   ps::OperatingSystem::Unique const &os)
+ps::ReadFDToLines (int                       fd,
+                   ps::OperatingSystem const &os)
 {
     std::vector <std::string> lines;
 
@@ -104,8 +104,8 @@ ps::ReadFDToLines (int                           fd,
 }
 
 std::string
-ps::ReadFDToString (int                           fd,
-                    ps::OperatingSystem::Unique const &os)
+ps::ReadFDToString (int                       fd,
+                    ps::OperatingSystem const &os)
 {
     std::stringstream ss;
 

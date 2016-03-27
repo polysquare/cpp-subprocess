@@ -155,7 +155,7 @@ TEST_F (MockedOSRedirectedFD, ComplainsToStandardErrorWhenCloseFails)
         ps::RedirectedFD redirected (0, to, os);
     }
 
-    auto errors = ps::ReadFDToString (stderrPipe.ReadEnd (), realOS);
+    auto errors = ps::ReadFDToString (stderrPipe.ReadEnd (), *realOS);
 
     EXPECT_THAT (errors, HasSubstr ("Failed to close redirect-to"));
 }

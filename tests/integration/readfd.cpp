@@ -65,7 +65,7 @@ TEST_F (ReadFD, ReadFromPipe)
     std::string const msg ("mock_data\n");
     WriteMessage (msg);
 
-    std::string msgReceived = ps::ReadFDToString (pipe.ReadEnd (), os);
+    std::string msgReceived = ps::ReadFDToString (pipe.ReadEnd (), *os);
 
     EXPECT_EQ (msg, msgReceived);
 }
@@ -75,7 +75,7 @@ TEST_F (ReadFD, ReadMultilineMessageFromPipe)
     std::string const msg ("mock_data\nmock_data\n");
     WriteMessage (msg);
 
-    std::string msgReceived = ps::ReadFDToString (pipe.ReadEnd (), os);
+    std::string msgReceived = ps::ReadFDToString (pipe.ReadEnd (), *os);
 
     EXPECT_EQ (msg, msgReceived);
 }
@@ -85,7 +85,7 @@ TEST_F (ReadFD, ReadMultilineMessageFromPipeNoTrailingReturn)
     std::string const msg ("mock_data\nmock_data");
     WriteMessage (msg);
 
-    std::string msgReceived = ps::ReadFDToString (pipe.ReadEnd (), os);
+    std::string msgReceived = ps::ReadFDToString (pipe.ReadEnd (), *os);
 
     EXPECT_EQ (msg, msgReceived);
 }
@@ -96,7 +96,7 @@ TEST_F (ReadFD, ReadMultilineMessageFromPipeAsVectorWithTrailingReturn)
     std::string const msg (mockData + "\n" + mockData + "\n");
     WriteMessage (msg);
 
-    auto linesReceived = ps::ReadFDToLines (pipe.ReadEnd (), os);
+    auto linesReceived = ps::ReadFDToLines (pipe.ReadEnd (), *os);
 
     EXPECT_THAT (linesReceived,
                  ElementsAre (StrEq (mockData), StrEq (mockData)));
@@ -108,7 +108,7 @@ TEST_F (ReadFD, ReadMultilineMessageFromPipeAsVectorWithoutTrailingReturn)
     std::string const msg (mockData + "\n" + mockData);
     WriteMessage (msg);
 
-    auto linesReceived = ps::ReadFDToLines (pipe.ReadEnd (), os);
+    auto linesReceived = ps::ReadFDToLines (pipe.ReadEnd (), *os);
 
     EXPECT_THAT (linesReceived,
                  ElementsAre (StrEq (mockData), StrEq (mockData)));
@@ -116,7 +116,7 @@ TEST_F (ReadFD, ReadMultilineMessageFromPipeAsVectorWithoutTrailingReturn)
 
 TEST_F (ReadFD, ReadNone)
 {
-    std::string msgReceived = ps::ReadFDToString (pipe.ReadEnd (), os);
+    std::string msgReceived = ps::ReadFDToString (pipe.ReadEnd (), *os);
 
     EXPECT_EQ ("", msgReceived);
 }
