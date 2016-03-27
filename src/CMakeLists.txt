@@ -18,7 +18,7 @@ if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
          ${CPP_SUBPROCESS_LIBRARY_SRCS}
          "${CMAKE_CURRENT_SOURCE_DIR}/darwin_operating_system.cpp")
 
-elseif ()
+elseif (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
 
     set (CPP_SUBPROCESS_LIBRARY_SRCS
          ${CPP_SUBPROCESS_LIBRARY_SRCS}
