@@ -11,7 +11,8 @@ env:
   - CMAKE_GENERATOR="Unix Makefiles" CMAKE_VERSION="latest"
   - secure: asGQM5ecuziLy3+1k0zCkO2jDIOlUDdUO2KmOWN0X9cRt0yOSZ83bcDzif5/ibjHxKMwDmAQMOoWjKCiJ7rkyy7smpNq4lrW7kpxW5Mmyom0XGMmD35vCpEFV6T4dZFIZuw6/Xie+iezNuzbsJr8XqMHfp1ur1zW63FAqps8+8w=
   - secure: E2J/W3JqLTfzN9KHWo/yOTY/xGLpQmYWgJzLCvRyrEJCL5S3W6oXzoY483XwAyD++d5RIJm9Nwv5anob86sFYA6AbmiE6/COxqm5SM1VH+hNpoPgDaX85Z4vy6Gs9kzDtMe2rLj5NizHYHFEPOUu+TDSucvfxb2BcGuuFhUnOvk=
-  - secure: SMKAuqH0xQl6ceqcKOL7IaU5Rl7Tj7mbGL5vY/1KI3DBlj42D5YlxqeslVy2ABbsty0AIyTDXqoaDh/peqCVMU3JqDK6hJzG2SvfkX7IWdZEctNIuzQ0taDqihLr/PjQNwojiqQeU0yHc/LOrPkdSpmxljRyoTx49FBrJuzJNDU=addons:
+  - secure: SMKAuqH0xQl6ceqcKOL7IaU5Rl7Tj7mbGL5vY/1KI3DBlj42D5YlxqeslVy2ABbsty0AIyTDXqoaDh/peqCVMU3JqDK6hJzG2SvfkX7IWdZEctNIuzQ0taDqihLr/PjQNwojiqQeU0yHc/LOrPkdSpmxljRyoTx49FBrJuzJNDU=
+addons:
   apt:
     sources:
     - deadsnakes
