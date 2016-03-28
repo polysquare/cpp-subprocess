@@ -1,23 +1,22 @@
-/*
- * locatebinary.cpp
+/* /src/locatebinary.cpp
  *
  * Traverse PATH until a suitable instance
  * of a binary can be located
  *
- * See LICENSE.md for Copyright information
- */
+ * See /LICENCE.md for Copyright information */
 
 #include <iostream>
-#include <sstream>
 #include <stdexcept>
+#include <string>
+#include <sstream> // IWYU pragma: keep
 
-#include <unistd.h>
-#include <stdlib.h>
-#include <errno.h>
 #include <string.h>
+#include <errno.h>  // IWYU pragma: keep
+#include <unistd.h> // IWYU pragma: keep
 
 #include <cpp-subprocess/locatebinary.h>
 #include <cpp-subprocess/operating_system.h>
+
 
 namespace ps = polysquare::subprocess;
 namespace psi = polysquare::subprocess::impl;

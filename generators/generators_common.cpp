@@ -1,23 +1,19 @@
-/*
- * generators_common.cpp
+/* /generators/generators_common.cpp
  *
- * Tool used to parse an input template .h and .cpp files
+ * Tool used to parse an input template /.h and /.cpp files
  * and replace tokens for output files based on parameters.
  *
- * See LICENCE.md for Copyright information.
- */
+ * See /LICENCE.md for Copyright information */
 
 #include <algorithm>
-#include <cstring>
+#include <exception>
 #include <fstream>
-#include <functional>
-#include <iostream>
 #include <iterator>
-#include <locale>
-#include <sstream>
 #include <stdexcept>
 #include <string>
 #include <vector>
+
+#include <cstring>
 
 #include <boost/program_options.hpp>
 

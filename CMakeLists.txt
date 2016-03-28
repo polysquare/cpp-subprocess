@@ -1,32 +1,28 @@
 # /CMakeLists.txt
+#
 # Main CMake file for cpp-subprocess.
 #
-# See LICENCE.md for Copyright Information.
+# See /LICENCE.md for Copyright information
 
 project (CPPSubprocess)
 
 cmake_minimum_required (VERSION 2.8 FATAL_ERROR)
 
+include ("${CMAKE_CURRENT_LIST_DIR}/conanbuildinfo.cmake")
+conan_basic_setup ()
+
 option (CPP_SUBPROCESS_BOOST_USE_STATIC_LIBS ON
         "Link static libraries for boost. OFF if not using system compiler")
-set (Boost_USE_STATIC_LIBS ${CPP_SUBPROCESS_BOOST_USE_STATIC_LIBS})
+set (BOOST_USE_STATIC_LIBS ${CPP_SUBPROCESS_BOOST_USE_STATIC_LIBS})
 
-set (CPP_SUBPROCESS_CMAKE_MODULE_DIRECTORY
-     ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
-set (CPP_SUBPROCESS_CMAKE_COMMON_MODULE_DIRECTORY
-     ${CPP_SUBPROCESS_CMAKE_MODULE_DIRECTORY}/common)
-set (CMAKE_MODULE_PATH
-     ${CPP_SUBPROCESS_CMAKE_COMMON_MODULE_DIRECTORY}
-     ${CMAKE_MODULE_PATH})
+include ("cmake/common-universal-cmake/PolysquareCommon")
 
-include (PolysquareCommon)
-
-polysquare_compiler_bootstrap ()
-polysquare_rules_bootstrap (${CPP_SUBPROCESS_CMAKE_COMMON_MODULE_DIRECTORY}
-                            ${CMAKE_BINARY_DIR})
-polysquare_gmock_bootstrap (${CPP_SUBPROCESS_CMAKE_COMMON_MODULE_DIRECTORY})
-polysquare_coverage_bootstrap (${CPP_SUBPROCESS_CMAKE_COMMON_MODULE_DIRECTORY})
-polysquare_cotire_bootstrap (${CPP_SUBPROCESS_CMAKE_COMMON_MODULE_DIRECTORY})
+psq_compiler_bootstrap ()
+psq_rules_bootstrap ()
+psq_gmock_bootstrap ()
+psq_coverage_bootstrap ()
+psq_acceleration_bootstrap ()
+psq_sanitizers_bootstrap ()
 
 function (cpp_subprocess_import_external_libraries_from_boost RETURN_VALUE
                                                               VERSION)
@@ -66,8 +62,8 @@ cpp_subprocess_import_external_libraries_from_boost (BOOST_LIBRARIES
                                                      program_options
                                                      iostreams)
 
-set (CPP_SUBPROCESS_LIBRARY polysquare_cpp_subprocess)
-set (CPP_SUBPROCESS_MOCKS polysquare_cpp_subprocess_mocks)
+set (CPP_SUBPROCESS_LIBRARY psq_cpp_subprocess)
+set (CPP_SUBPROCESS_MOCKS psq_cpp_subprocess_mocks)
 set (CPP_SUBPROCESS_STRING_REPLACEMENT_GENERATOR
      cpp_subprocess_string_replacement_generator)
 
@@ -75,18 +71,18 @@ set (CPP_SUBPROCESS_EXTERNAL_LIBRARIES
      ${BOOST_LIBRARIES})
 
 set (CPP_SUBPROCESS_INTERNAL_INCLUDE_DIRECTORY
-     ${CMAKE_CURRENT_SOURCE_DIR}/include)
+     "${CMAKE_CURRENT_SOURCE_DIR}/include")
 set (CPP_SUBPROCESS_INTERNAL_SOURCE_DIRECTORY
-     ${CMAKE_CURRENT_SOURCE_DIR}/src)
+     "${CMAKE_CURRENT_SOURCE_DIR}/src")
 set (CPP_SUBPROCESS_MOCKS_DIRECTORY
-     ${CMAKE_CURRENT_SOURCE_DIR}/mocks)
+     "${CMAKE_CURRENT_SOURCE_DIR}/mocks")
 set (CPP_SUBPROCESS_GENERATORS_DIRECTORY
-     ${CMAKE_CURRENT_SOURCE_DIR}/generators)
+     "${CMAKE_CURRENT_SOURCE_DIR}/generators")
 set (CPP_SUBPROCESS_TESTS_DIRECTORY
-     ${CMAKE_CURRENT_SOURCE_DIR}/tests)
+     "${CMAKE_CURRENT_SOURCE_DIR}/tests")
 
-add_subdirectory (${CPP_SUBPROCESS_INTERNAL_SOURCE_DIRECTORY})
-add_subdirectory (${CPP_SUBPROCESS_MOCKS_DIRECTORY})
-add_subdirectory (${CPP_SUBPROCESS_TESTS_DIRECTORY})
-add_subdirectory (${CPP_SUBPROCESS_GENERATORS_DIRECTORY})
-add_subdirectory (${CPP_SUBPROCESS_INTERNAL_INCLUDE_DIRECTORY})
+add_subdirectory ("${CPP_SUBPROCESS_INTERNAL_SOURCE_DIRECTORY}")
+add_subdirectory ("${CPP_SUBPROCESS_MOCKS_DIRECTORY}")
+add_subdirectory ("${CPP_SUBPROCESS_TESTS_DIRECTORY}")
+add_subdirectory ("${CPP_SUBPROCESS_GENERATORS_DIRECTORY}")
+add_subdirectory ("${CPP_SUBPROCESS_INTERNAL_INCLUDE_DIRECTORY}")

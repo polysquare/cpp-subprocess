@@ -1,8 +1,0 @@
-clang
-cppcheck
-libboost-program-options-dev
-libboost-iostreams-dev
-libboost-dev
-libgtest-dev
-google-mock
-vera++

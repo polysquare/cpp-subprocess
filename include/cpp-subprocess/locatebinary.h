@@ -1,16 +1,16 @@
-/*
- * locatebinary.h
+/* /include/cpp-subprocess/locatebinary.h
  *
  * Traverse PATH until a suitable instance
  * of a binary can be located
  *
- * See LICENSE.md for Copyright information
- */
+ * See /LICENCE.md for Copyright information */
 
 #ifndef POLYSQUARE_CPP_SUBPROCESS_LOCATE_BINARY_H
 #define POLYSQUARE_CPP_SUBPROCESS_LOCATE_BINARY_H
 
-#include <functional>
+#include <exception>
+#include <functional>  // IWYU pragma: keep
+#include <stdexcept>
 #include <string>
 
 namespace polysquare

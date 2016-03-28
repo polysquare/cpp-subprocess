@@ -1,22 +1,26 @@
-/*
- * pipe.cpp
+/* /tests/integration/pipe.cpp
  *
- * Test pipe creation and deletion with pipe2
+ * Test pipe creation and deletion with pipe
  *
- * See LICENSE.md for Copyright information
- */
+ * See /LICENCE.md for Copyright information */
 
+#include <sstream>
 #include <stdexcept>
+#include <string>
+
+#include <poll.h>
+#include <unistd.h>
 
 #include <gtest/gtest.h>
-
-#include <unistd.h>
-#include <sys/poll.h>
-#include <errno.h>
+#include <gmock/gmock-actions.h>
+#include <gmock/gmock-generated-actions.h>
+#include <gmock/gmock-matchers.h>
+#include <gmock/gmock-more-actions.h>
+#include <gmock/gmock-spec-builders.h>
 
 #include <cpp-subprocess/operating_system.h>
 #include <cpp-subprocess/pipe.h>
-#include <cpp-subprocess/readfd.h>
+#include <cpp-subprocess/readfd.h>  // IWYU pragma: keep
 #include <cpp-subprocess/redirectedfd.h>
 
 #include <mock_operating_system.h>
@@ -59,7 +63,7 @@ TEST_F (Pipe, WriteAndRead)
                                        static_cast <void *> (msg),
                                        1);
 
-    assert (amountWritten != -1);
+    ASSERT_NE (amountWritten, -1) << "Expected data to be written";
 
     char buf[2];
 
@@ -70,16 +74,13 @@ TEST_F (Pipe, WriteAndRead)
 
     int ready = os->poll (&pfd, 1, 0);
 
-    assert (ready != -1);
-
     ASSERT_EQ (1, ready) << "Expected read end to be ready";
 
     ssize_t amountRead = os->read (pipe.ReadEnd (),
                                    static_cast <void *> (buf),
                                    1);
 
-    assert (amountRead != -1);
-
+    ASSERT_NE (amountRead, -1) << "Expected data to be read";
     EXPECT_EQ (msg[0], buf[0]) << "Expected data on read end";
 }
 
@@ -131,7 +132,7 @@ TEST_F (PipeWithMockedBackend, ComplainsOnPipeFailureToClose)
         ps::Pipe pipe (os);
     }
 
-    auto lines = ps::ReadFDToLines (stderrPipe.ReadEnd (), realOS);
+    auto lines = ps::ReadFDToLines (stderrPipe.ReadEnd (), *realOS);
 
     Matcher <std::string> const closeErrors[] =
     {

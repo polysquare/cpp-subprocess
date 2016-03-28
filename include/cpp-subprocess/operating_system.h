@@ -1,17 +1,19 @@
-/*
- * operating_system.h
+/* /include/cpp-subprocess/operating_system.h
+ *
  * Simple thin virtual class to abstract away some UNIX userland
  * implementation details.
  *
- * See LICENCE.md for Copyright information.
- */
+ * See /LICENCE.md for Copyright information */
 
 #ifndef POLYSQUARE_SUBPROCESS_OPERATING_SYSTEM_H
 #define POLYSQUARE_SUBPROCESS_OPERATING_SYSTEM_H
 
-#include <memory>
+#include <memory>  // IWYU pragma: keep
 
+#include <stddef.h>
 #include <sys/types.h>
+
+typedef struct pollfd pollfd_t;
 
 namespace polysquare
 {

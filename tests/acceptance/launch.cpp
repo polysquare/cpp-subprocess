@@ -1,18 +1,20 @@
-/*
- * launch.cpp
+/* /tests/acceptance/launch.cpp
  *
  * Test that when we launch a binary we can collect
  * its return code, output etc
  *
- * See LICENCE.md for Copyright information
- */
+ * See /LICENCE.md for Copyright information */
+
+#include <string> // IWYU pragma: keep
 
 #include <gtest/gtest.h>
 
+#include <stddef.h>
+
 #include <cpp-subprocess/launch.h>
-#include <cpp-subprocess/operating_system.h>
+#include <cpp-subprocess/operating_system.h> // IWYU pragma: keep
 #include <cpp-subprocess/pipe.h>
-#include <cpp-subprocess/readfd.h>
+#include <cpp-subprocess/readfd.h>  // IWYU pragma: keep
 
 #include <acceptance_tests_config.h>
 
@@ -62,14 +64,14 @@ Launch::LaunchBinary ()
 TEST_F (Launch, CaptureStdout)
 {
     LaunchBinary ();
-    std::string output = ps::ReadFDToString (stdoutPipe.ReadEnd (), os);
+    std::string output = ps::ReadFDToString (stdoutPipe.ReadEnd (), *os);
     EXPECT_EQ ("output\n", output);
 }
 
 TEST_F (Launch, CaptureStderr)
 {
     LaunchBinary ();
-    std::string error = ps::ReadFDToString (stderrPipe.ReadEnd (), os);
+    std::string error = ps::ReadFDToString (stderrPipe.ReadEnd (), *os);
     EXPECT_EQ ("error\n", error);
 }
 

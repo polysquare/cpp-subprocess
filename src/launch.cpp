@@ -1,28 +1,27 @@
-/*
- * launch.cpp
+/* /src/launch.cpp
  *
  * Utility function to launch a binary and collect
- * the return code, stdin and stdout
+ * the return code, stain and stdout
  *
- * See LICENSE.md for Copyright information
- */
+ * See /LICENCE.md for Copyright information */
 
 #include <iostream>
-#include <sstream>
 #include <stdexcept>
+#include <string>
+#include <sstream> // IWYU pragma: keep
 
-#include <unistd.h>
-#include <errno.h>
-#include <sys/poll.h>
-#include <sys/types.h>
-#include <sys/wait.h>
-#include <fcntl.h>
+#include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
+#include <errno.h> // IWYU pragma: keep
+
+#include <sys/wait.h> // IWYU pragma: keep
+#include <unistd.h>
 
 #include <cpp-subprocess/fdbackup.h>
-#include <cpp-subprocess/launch.h>
 #include <cpp-subprocess/operating_system.h>
 #include <cpp-subprocess/redirectedfd.h>
+#include <cpp-subprocess/launch.h> // IWYU pragma: keep
 
 namespace ps = polysquare::subprocess;
 

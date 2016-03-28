@@ -1,28 +1,34 @@
-/*
- * fdbackup.cpp
+/* /tests/integration/fdbackup.cpp
  *
  * Test backup and restore with dup2
  *
- * See LICENSE.md for Copyright information
- */
+ * See /LICENCE.md for Copyright information */
 
-#include <memory>
-#include <stdexcept>
+#include <memory>  // IWYU pragma: keep
+#include <stdexcept>  // IWYU pragma: keep
+#include <string>  // IWYU pragma: keep
+#include <system_error>  // IWYU pragma: keep
 
+#include <poll.h>
+#include <string.h>
+#include <unistd.h>
+
+#include <errno.h>  // IWYU pragma: keep
+
+#include <gmock/gmock-actions.h>
+#include <gmock/gmock-matchers.h>
+#include <gmock/gmock-spec-builders.h>
+#include <gtest/gtest-message.h>
 #include <gtest/gtest.h>
 
-#include <unistd.h>
-#include <sys/poll.h>
-#include <fcntl.h>
-#include <errno.h>
-
-#include <cpp-subprocess/operating_system.h>
 #include <cpp-subprocess/fdbackup.h>
+#include <cpp-subprocess/operating_system.h>  // IWYU pragma: keep
 #include <cpp-subprocess/pipe.h>
-#include <cpp-subprocess/readfd.h>
+#include <cpp-subprocess/readfd.h>  // IWYU pragma: keep
 #include <cpp-subprocess/redirectedfd.h>
 
 #include <mock_operating_system.h>
+
 
 namespace ps = polysquare::subprocess;
 namespace psm = polysquare::subprocess::mocks;
@@ -48,9 +54,8 @@ class FDBackup :
 FDBackup::FDBackup () :
     os (ps::MakeOperatingSystem ())
 {
-    int result = os->pipe (pipe);
-
-    assert (result != -1);
+    if (os->pipe (pipe) == -1)
+        throw std::system_error (errno, std::system_category ());
 
     backup.reset (new ps::FDBackup (pipe[0], *os));
 
@@ -65,7 +70,8 @@ TEST_F (FDBackup, Restore)
                                        static_cast <void *> (msg),
                                        1);
 
-    assert (amountWritten != -1);
+    EXPECT_NE (amountWritten, -1) << "Expected data to be written: "
+                                  << strerror (errno);
 
     backup.reset ();
 
@@ -75,8 +81,6 @@ TEST_F (FDBackup, Restore)
     pfd.fd = pipe[0];
 
     int ready = os->poll (&pfd, 1, 0);
-
-    assert (ready != -1);
 
     EXPECT_EQ (1, ready) << "Expected data available to be read on restored fd";
 }
@@ -124,7 +128,7 @@ TEST_F (MockedOSFDBackup, ComplainsToStandardErrorWhenDup2Fails)
         ps::FDBackup backup (1, os);
     }
 
-    auto errors = ps::ReadFDToString (stderrPipe.ReadEnd (), realOS);
+    auto errors = ps::ReadFDToString (stderrPipe.ReadEnd (), *realOS);
 
     EXPECT_THAT (errors, HasSubstr ("Failed to restore file descriptor"));
 }

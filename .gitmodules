@@ -1,3 +1,0 @@
-[submodule "cmake/common"]
-	path = cmake/common
-	url = git://github.com/polysquare/common-universal-cmake

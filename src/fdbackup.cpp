@@ -1,17 +1,14 @@
-/*
- * fdbackup.cpp
+/* /src/fdbackup.cpp
  *
  * Utility class to save file descriptor names and restore them
  * later
  *
- * See LICENSE.md for Copyright information
- */
+ * See /LICENCE.md for Copyright information */
 
 #include <iostream>
 #include <stdexcept>
 
-#include <unistd.h>
-#include <errno.h>
+#include <errno.h>  // IWYU pragma: keep
 #include <string.h>
 
 #include <cpp-subprocess/fdbackup.h>

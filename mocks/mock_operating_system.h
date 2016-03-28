@@ -1,16 +1,16 @@
-/*
- * mock_operating_system.h
+/* /mocks/mock_operating_system.h
  *
  * Mocked out system calls.
  *
- * See LICENCE.md for Copyright information.
- */
+ * See /LICENCE.md for Copyright information */
 
 #ifndef POLYSQUARE_SUBPROCESS_MOCK_OPERATING_SYSTEM_H
 #define POLYSQUARE_SUBPROCESS_MOCK_OPERATING_SYSTEM_H
 
-#include <functional>
-#include <gmock/gmock.h>
+#include <stddef.h>
+#include <sys/types.h>
+
+#include <gmock/gmock-generated-function-mockers.h>
 
 #include <cpp-subprocess/operating_system.h>
 

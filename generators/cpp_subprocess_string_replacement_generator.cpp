@@ -1,24 +1,26 @@
-/*
- * cpp_subprocess_tools_simple_string_replacement_generator.cpp
+/* /generators/cpp_subprocess_string_replacement_generator.cpp
  *
- * Tool used to parse an input tools_declarations.h.in and
- * generate output tools_declarations.h
+ * Tool used to parse an input /tools_declarations.h.in and
+ * generate output /tools_declarations.h
  *
- * See LICENCE.md for Copyright information.
- */
+ * See /LICENCE.md for Copyright information */
 
-#include <algorithm>
-#include <cstring>
-#include <functional>
-#include <locale>
-#include <sstream>
+#include <exception>
+#include <iostream>
+#include <iterator>
+#include <stdexcept>
 #include <string>
 #include <utility>
 #include <vector>
+#include <sstream> // IWYU pragma: keep
 
-#include <boost/algorithm/string/replace.hpp>
+#include <stddef.h> // IWYU pragma: keep
 
 #include <libgen.h>
+#include <stdlib.h>
+#include <cstring>
+
+#include <boost/algorithm/string/replace.hpp>  // IWYU pragma: keep
 
 #include "generators_common.h"
 
@@ -29,7 +31,7 @@ namespace
 {
     std::string GetBasename (std::string const &str)
     {
-        /* There's no guarunteee that basename won't modify its argument
+        /* There's no guarantee that basename won't modify its argument
          * so we need to create a copy here */
         char        *inputCopy = ::strdup (str.c_str ());
         char        *base = ::basename (inputCopy);

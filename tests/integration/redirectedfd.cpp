@@ -1,23 +1,27 @@
-/*
- * redirectedfd.cpp
+/* /tests/integration/redirectedfd.cpp
  *
  * Test redirecting one fd to another
  *
- * See LICENSE.md for Copyright information
- */
+ * See /LICENCE.md for Copyright information */
+
+#include <memory> // IWYU pragma: keep
 #include <stdexcept>
+#include <system_error> // IWYU pragma: keep
 
-#include <memory>
+#include <poll.h>
+#include <string.h>
+#include <errno.h> // IWYU pragma: keep
+#include <unistd.h>
 
-#include <gmock/gmock.h>
-
-#include <stdio.h>
-#include <sys/poll.h>
+#include <gmock/gmock-actions.h>
+#include <gmock/gmock-matchers.h>
+#include <gmock/gmock-spec-builders.h>
+#include <gtest/gtest.h>
 
 #include <cpp-subprocess/fdbackup.h>
 #include <cpp-subprocess/operating_system.h>
 #include <cpp-subprocess/pipe.h>
-#include <cpp-subprocess/readfd.h>
+#include <cpp-subprocess/readfd.h> // IWYU pragma: keep
 #include <cpp-subprocess/redirectedfd.h>
 
 #include <mock_operating_system.h>
@@ -59,7 +63,8 @@ namespace
 
         int n = os.poll (&pfd, 1, 0);
 
-        assert (n != -1);
+        if (n == -1)
+            throw std::system_error (errno, std::system_category ());
 
         return n > 0;
     }
@@ -73,7 +78,8 @@ RedirectedFD::RedirectedFD () :
 {
     int result = close (from.WriteEnd ());
 
-    assert (result != -1);
+    if (result == -1)
+        throw std::system_error (errno, std::system_category ());
 
     redirected.reset (new ps::RedirectedFD (from.WriteEnd (),
                                             to.WriteEnd (),
@@ -85,7 +91,7 @@ TEST_F (RedirectedFD, WriteToNewFd)
     char buf[] = "a\0";
     ssize_t len = write (from.WriteEnd (), static_cast <void *> (buf), 1);
 
-    assert (len != -1);
+    ASSERT_NE (len, -1) << strerror (errno);
 
     /* There should be something to poll */
     EXPECT_TRUE (ReadyForReading (to, *os));
@@ -99,7 +105,7 @@ TEST_F (RedirectedFD, RestoredWriteToOldFd)
     char buf[] = "a\0";
     ssize_t len = write (from.WriteEnd (), static_cast <void *> (buf), 1);
 
-    assert (len != -1);
+    ASSERT_NE (len, -1) << strerror (errno);
 
     /* There should be nothing to poll */
     EXPECT_TRUE (ReadyForReading (from, *os));
@@ -149,7 +155,7 @@ TEST_F (MockedOSRedirectedFD, ComplainsToStandardErrorWhenCloseFails)
         ps::RedirectedFD redirected (0, to, os);
     }
 
-    auto errors = ps::ReadFDToString (stderrPipe.ReadEnd (), realOS);
+    auto errors = ps::ReadFDToString (stderrPipe.ReadEnd (), *realOS);
 
     EXPECT_THAT (errors, HasSubstr ("Failed to close redirect-to"));
 }

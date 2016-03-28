@@ -1,18 +1,22 @@
-/*
- * gnu_operating_system.cpp
+/* /src/gnu_operating_system.cpp
+ *
  * Implementation of UNIX system calls for GNU systems
  *
- * See LICENCE.md for Copyright information.
- */
+ * See /LICENCE.md for Copyright information */
 
-#include "nonportable_gnu.h"
+#include "nonportable_gnu.h"  // IWYU pragma: keep
+
+#include <stddef.h>  // IWYU pragma: keep
+
 #include <fcntl.h>
+#include <poll.h>
 #include <unistd.h>
 
 #include <sys/wait.h>
-#include <sys/poll.h>
 
 #include <cpp-subprocess/operating_system.h>
+
+// IWYU pragma: no_include <bits/fcntl-linux.h>
 
 namespace ps = polysquare::subprocess;
 

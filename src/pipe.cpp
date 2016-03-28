@@ -1,16 +1,16 @@
-/*
- * pipe.cpp
+/* /src/pipe.cpp
  *
  * Utility class to create a unix pipe and
  * close it on teardown
  *
- * See LICENSE.md for Copyright information
- */
+ * See /LICENCE.md for Copyright information */
+
 #include <iostream>
 #include <stdexcept>
 
-#include <errno.h>
 #include <string.h>
+
+#include <errno.h> // IWYU pragma: keep
 
 #include <cpp-subprocess/operating_system.h>
 #include <cpp-subprocess/pipe.h>

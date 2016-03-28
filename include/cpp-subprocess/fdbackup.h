@@ -1,11 +1,10 @@
-/*
- * fdbackup.h
+/* /include/cpp-subprocess/fdbackup.h
  *
  * Utility class to save file descriptor names and restore them
  * later
  *
- * See LICENSE.md for Copyright information
- */
+ * See /LICENCE.md for Copyright information */
+
 #ifndef POLYSQUARE_CPP_SUBPROCESS_FDBACKUP_H
 #define POLYSQUARE_CPP_SUBPROCESS_FDBACKUP_H
 

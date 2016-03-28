@@ -1,42 +1,57 @@
 language: cpp
+sudo: false
+cache:
+  directories:
+  - container
 env:
- # GNU C/C++ Build
- - CC_OVERLOAD=gcc
-   CXX_OVERLOAD=g++
- # Clang Build+
- - CC_OVERLOAD=clang
-   CXX_OVERLOAD=clang++
- # Clang Static Analysis
- - SCAN_BUILD=1
- # GCov Coverage Build
- - CC_OVERLOAD=gcc
-   CXX_OVERLOAD=g++
-   CMAKE_OPTIONS="-DCMAKE_BUILD_TYPE=Debug -DENABLE_COVERAGE=ON"
-   COVERAGE=1
-before_install:
-  - git submodule update --init --recursive
-  - sudo apt-add-repository -y ppa:smspillaz/verapp-latest
-  - sudo apt-get update -qq
-  - sudo apt-get install -qq `cat DEPENDENCIES`
-  - if [[ $COVERAGE == 1 ]] ; then sudo pip install cpp-coveralls; fi
+  matrix:
+  - CC_OVERRIDE=gcc CXX_OVERRIDE=g++ CMAKE_EXTRA_OPTIONS="POLYSQUARE_USE_PRECOMPILED_HEADERS=OFF"
+  - CC_OVERRIDE=/usr/bin/clang CXX_OVERRIDE=/usr/bin/clang++ CONAN_COMPILER=clang
+  global:
+  - CMAKE_GENERATOR="Unix Makefiles" CMAKE_VERSION="latest"
+  - secure: JEjMUojp81OtlxeljKhbEg96Z1gRm2G4ToDeO3BmNZ9iAbFEArr6ZUSKPJzv56kdV1mkgh0EQzOo4BnCO19A8+WiRTfi1+ZdLvd7p+lcGx8iJctZtwhlfmaDR87MXFZYP3LvKASwa2VTi/jqmtsNYes1/+ti5wfwEWbMICaPZ90=
+  - secure: IJJ9zobPHIDnvTClcZhVkIFwS6hhMHVT3klvAAeAreummaYa4GHYcyD82FT/ooMeUjLnoK+9hiIb3fWZvsVo+axdEJPOHdQ+h0s1hNEIq1pSQIwA1abMvpMuNvkoYrKGb4pygyE4tYlJqGmyfHXGhlo0Li84qQ5JKsmQVL4CZh8=
+  - secure: LeF41KFO1TSLLtSWv5zCt9BKEZv3/ERhgV4NKhpZMPf7IkwIT5yR5/sS2qSS9WJO6Sr0S+ExyXHw+HqW8h/dteoZ0puw2b7AUEkENb6KU6/PqO/FufWB3iUSczOEq+xl0BKZ5K6wzKOE+l0Xtujm2vla8qa9CD0sKXqBaURSSmQ=
+addons:
+  apt:
+    sources:
+    - deadsnakes
+    packages:
+    - python3.4-dev
+install:
+- eval $(curl -LSs --retry 100 --connect-timeout 3 public-travis-scripts.polysquare.org/bootstrap.py
+  | python /dev/stdin -d container -s setup/psqcppconan/setup.py -e bash -p /dev/stdout
+  --cmake-version ${CMAKE_VERSION})
 script:
-  - export CC=${CC_OVERLOAD}
-  - export CXX=${CXX_OVERLOAD}
-  - mkdir build
-  - pushd build
-  - if [[ $SCAN_BUILD == 1 ]] ; then
-      scan-build cmake .. `echo ${CMAKE_OPTIONS}`;
-      scan-build --use-cc=clang --use-c++=clang++ make;
-    else
-      cmake .. `echo ${CMAKE_OPTIONS}` -DCPP_SUBPROCESS_BOOST_USE_STATIC_LIBS=OFF;
-      make;
-    fi;
-  - pushd tests 
-  - ./integration/cpp_subprocess_integration_tests
-  - ./acceptance/cpp_subprocess_acceptance_tests
-  - popd
-  - popd
+- if [[ "${TRAVIS_OS_NAME}" == "linux" ]] ; then wget http://launchpadlibrarian.net/174836660/iwyu_3.4-1_amd64.deb;
+  container/_languages/python/3.4.4/bin/psq-travis-container-exec container/_languages/os/Ubuntu.trusty.None
+  --distro "Ubuntu" --release "trusty" --show-output -- dpkg -i --force-depends iwyu_3.4-1_amd64.deb;
+  fi
+- if [[ "${TRAVIS_OS_NAME}" == "linux" ]] ; then container/_languages/python/3.4.4/bin/psq-travis-container-exec
+  --distro Ubuntu --release trusty container/_languages/os/Ubuntu.trusty.None --show-output
+  -- ln -sf /usr/bin/clang-tidy-3.6 /usr/bin/clang-tidy ; fi
+- if [[ "${TRAVIS_OS_NAME}" == "linux" ]] ; then container/_languages/python/3.4.4/bin/psq-travis-container-exec
+  container/_languages/os/Ubuntu.trusty.None --distro "Ubuntu" --release "trusty"
+  --show-output -- ln -sf /usr/bin/clang++-3.6 /usr/bin/clang++ ;  fi
+- if [[ "${TRAVIS_OS_NAME}" == "linux" ]] ; then container/_languages/python/3.4.4/bin/psq-travis-container-exec
+  container/_languages/os/Ubuntu.trusty.None --distro "Ubuntu" --release "trusty"
+  --show-output -- ln -sf /usr/bin/clang-3.6 /usr/bin/clang ;  fi
+- if [[ "${TRAVIS_OS_NAME}" == "osx" ]] ; then container/_languages/python/3.5.1/bin/psq-travis-container-exec
+  --distro OSX --release 10.10 container/_languages/os/OSX.10.10.None -- brew link
+  llvm --force ; fi
+- polysquare_run check/psqcppconan/check.py ${COVERAGE} --cmake-namespace cpp_subprocess --generator
+  "${CMAKE_GENERATOR}" --cmake-cache-variables CMAKE_C_COMPILER=${CC_OVERRIDE} CMAKE_CXX_COMPILER=${CXX_OVERRIDE} ${CMAKE_EXTRA_OPTIONS} CONAN_DISABLE_CHECK_COMPILER=ON --run-test-binaries bin/cpp_subprocess_acceptance_tests bin/cpp_subprocess_integration_tests
+before_cache:
+- polysquare_cleanup
 after_success:
- - if [[ $COVERAGE == 1 ]] ; then
-     coveralls -E "(^.*\/cpp-subprocess\/build\/.*$)" -E "(^.*\/cpp-subprocess/\include\/.*$)" -E "(^.*\/cpp-subprocess\/generators\/.*$)";
-   fi
+- polysquare_run coverage/cmake/coverage.py
+before_deploy:
+- polysquare_run deploy/conan/before_deploy.py --package="cpp-subprocess"
+deploy:
+  provider: script
+  skip_cleanup: true
+  script: "./travis-deploy"
+  on:
+    repo: polysquare/cpp-subprocess
+    branch: master
+    condition: "${DEPLOY} = 1"

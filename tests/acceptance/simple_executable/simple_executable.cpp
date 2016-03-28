@@ -1,10 +1,9 @@
-/*
- * simple_executable.cpp
+/* /tests/acceptance/simple_executable/simple_executable.cpp
+ *
  *
  * Writes "output" to the stdout and "error" to stderr
  *
- * See LICENSE.md for Copyright information.
- */
+ * See /LICENCE.md for Copyright information */
 
 #include <iostream>
 
