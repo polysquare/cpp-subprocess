@@ -9,10 +9,9 @@ env:
   - CC_OVERRIDE=/usr/bin/clang CXX_OVERRIDE=/usr/bin/clang++ CONAN_COMPILER=clang
   global:
   - CMAKE_GENERATOR="Unix Makefiles" CMAKE_VERSION="latest"
-  - secure: JEjMUojp81OtlxeljKhbEg96Z1gRm2G4ToDeO3BmNZ9iAbFEArr6ZUSKPJzv56kdV1mkgh0EQzOo4BnCO19A8+WiRTfi1+ZdLvd7p+lcGx8iJctZtwhlfmaDR87MXFZYP3LvKASwa2VTi/jqmtsNYes1/+ti5wfwEWbMICaPZ90=
-  - secure: IJJ9zobPHIDnvTClcZhVkIFwS6hhMHVT3klvAAeAreummaYa4GHYcyD82FT/ooMeUjLnoK+9hiIb3fWZvsVo+axdEJPOHdQ+h0s1hNEIq1pSQIwA1abMvpMuNvkoYrKGb4pygyE4tYlJqGmyfHXGhlo0Li84qQ5JKsmQVL4CZh8=
-  - secure: LeF41KFO1TSLLtSWv5zCt9BKEZv3/ERhgV4NKhpZMPf7IkwIT5yR5/sS2qSS9WJO6Sr0S+ExyXHw+HqW8h/dteoZ0puw2b7AUEkENb6KU6/PqO/FufWB3iUSczOEq+xl0BKZ5K6wzKOE+l0Xtujm2vla8qa9CD0sKXqBaURSSmQ=
-addons:
+  - secure: asGQM5ecuziLy3+1k0zCkO2jDIOlUDdUO2KmOWN0X9cRt0yOSZ83bcDzif5/ibjHxKMwDmAQMOoWjKCiJ7rkyy7smpNq4lrW7kpxW5Mmyom0XGMmD35vCpEFV6T4dZFIZuw6/Xie+iezNuzbsJr8XqMHfp1ur1zW63FAqps8+8w=
+  - secure: E2J/W3JqLTfzN9KHWo/yOTY/xGLpQmYWgJzLCvRyrEJCL5S3W6oXzoY483XwAyD++d5RIJm9Nwv5anob86sFYA6AbmiE6/COxqm5SM1VH+hNpoPgDaX85Z4vy6Gs9kzDtMe2rLj5NizHYHFEPOUu+TDSucvfxb2BcGuuFhUnOvk=
+  - secure: SMKAuqH0xQl6ceqcKOL7IaU5Rl7Tj7mbGL5vY/1KI3DBlj42D5YlxqeslVy2ABbsty0AIyTDXqoaDh/peqCVMU3JqDK6hJzG2SvfkX7IWdZEctNIuzQ0taDqihLr/PjQNwojiqQeU0yHc/LOrPkdSpmxljRyoTx49FBrJuzJNDU=addons:
   apt:
     sources:
     - deadsnakes
